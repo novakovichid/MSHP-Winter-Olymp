@@ -26,6 +26,7 @@ const programButtons = document.getElementById("programButtons");
 const backToSeasonBtn = document.getElementById("backToSeason");
 const isMenuPage = Boolean(menu);
 const isGamePage = Boolean(game);
+const isCombinedPage = isMenuPage && isGamePage;
 
 let config = null;
 let boardConfig = null;
@@ -49,6 +50,10 @@ function getHeroes() {
 function getDefaultVariantId() {
   const ids = Object.keys(config?.variants ?? {});
   return ids.length > 0 ? ids[0] : null;
+}
+
+function isValidVariant(variantId) {
+  return Boolean(config?.variants?.[variantId] && boardConfig?.variants?.[variantId]);
 }
 
 function buildInitialState(variantId) {
@@ -510,6 +515,17 @@ async function init() {
   config = await configResponse.json();
   boardConfig = await boardResponse.json();
   state = loadState();
+  if (state.selectedVariant && !isValidVariant(state.selectedVariant)) {
+    const fallback = buildInitialState(null);
+    state = {
+      ...fallback,
+      students: state.students ?? fallback.students,
+      points: state.points ?? fallback.points,
+      scale: state.scale ?? fallback.scale,
+      selectedVariant: null
+    };
+    saveState();
+  }
   const urlParams = new URLSearchParams(window.location.search);
   const variantParam = urlParams.get("variant");
 
@@ -525,6 +541,9 @@ async function init() {
     seasonStep.classList.remove("hidden");
     programStep.classList.add("hidden");
     programButtons.innerHTML = "";
+    if (game) {
+      game.classList.add("hidden");
+    }
   }
 
   function showProgramSelection(season) {
@@ -560,7 +579,14 @@ async function init() {
 
   if (backBtn) {
     backBtn.addEventListener("click", () => {
-      window.location.href = "index.html";
+      if (isCombinedPage) {
+        showSeasonSelection();
+        if (menu) {
+          menu.classList.remove("hidden");
+        }
+      } else {
+        window.location.href = "index.html";
+      }
     });
   }
 
@@ -587,22 +613,33 @@ async function init() {
   }
 
   if (isMenuPage && !isGamePage) {
-    if (state.selectedVariant) {
-      const params = new URLSearchParams({ variant: state.selectedVariant });
-      window.location.href = `game.html?${params.toString()}`;
-      return;
-    }
     showSeasonSelection();
     return;
   }
 
   if (isGamePage) {
+    if (variantParam && !isValidVariant(variantParam)) {
+      if (isCombinedPage) {
+        showSeasonSelection();
+        return;
+      }
+      window.location.href = "index.html";
+      return;
+    }
     if (variantParam && variantParam !== state.selectedVariant) {
       selectVariant(variantParam);
       return;
     }
+    if (!variantParam && state.selectedVariant && isValidVariant(state.selectedVariant)) {
+      selectVariant(state.selectedVariant);
+      return;
+    }
     if (!state.selectedVariant) {
-      window.location.href = "index.html";
+      if (!isCombinedPage) {
+        window.location.href = "index.html";
+        return;
+      }
+      showSeasonSelection();
       return;
     }
     setupGame();

@@ -25,7 +25,81 @@
       </div>
     </section>
 
+    <section class="game hidden" id="game">
+      <header class="game__header">
+        <div>
+          <h2>Соберём команду героев!</h2>
+          <p class="game__legend">Управляйте роботом, открывайте команды и собирайте супергероев МШП.</p>
+        </div>
+        <div class="game__controls">
+          <div class="input-group">
+            <label for="students">Количество учеников</label>
+            <input id="students" type="number" min="1" value="10" />
+          </div>
+          <div class="input-group">
+            <label for="points">Баллы группы</label>
+            <input id="points" type="number" min="0" value="0" />
+          </div>
+          <div class="input-group">
+            <label for="scale">Масштаб поля</label>
+            <input id="scale" type="range" min="70" max="130" value="100" />
+          </div>
+          <button class="btn" id="reset">Сбросить прогресс</button>
+          <button class="btn btn--ghost" id="back">Назад к выбору</button>
+        </div>
+      </header>
+
+      <section class="game__content">
+        <div class="board-wrapper">
+          <div class="overseer" id="overseer" aria-label="Плохишиш наблюдает"></div>
+          <div class="board" id="board" aria-label="Игровое поле"></div>
+          <div class="team" id="team">
+            <h3>Команда супергероев</h3>
+            <div class="team__heroes" id="teamHeroes">
+              <div class="team__hero" data-hero="supershish">
+                <img src="pictures/SUPERSHISH-2.png" alt="Супершиш" />
+                <span>Супершиш</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="panel">
+            <h3>Стоимость команд</h3>
+            <ul class="costs" id="costs"></ul>
+          </div>
+
+          <div class="panel panel--program">
+            <h3>Программа</h3>
+            <ol class="program" id="program"></ol>
+            <div class="panel__actions">
+              <button class="btn btn--primary" id="run">Запустить</button>
+              <button class="btn" id="step">Шаг</button>
+              <button class="btn" id="clear">Очистить</button>
+            </div>
+          </div>
+
+          <div class="panel panel--commands">
+            <h3>Заблокированные команды</h3>
+            <div class="commands" id="lockedCommands"></div>
+          </div>
+
+          <div class="panel panel--commands panel--available">
+            <h3>Доступные команды</h3>
+            <div class="commands" id="availableCommands"></div>
+          </div>
+        </aside>
+      </section>
+    </section>
   </main>
+
+  <template id="heroTemplate">
+    <div class="hero" data-hero="">
+      <img alt="" />
+      <span></span>
+    </div>
+  </template>
 
   <script src="app.js"></script>
 </body>
