@@ -311,8 +311,8 @@ function createPiece(className, imgSrc, label) {
 function placeAt(element, position, offsetY = 0, isTiny = false) {
   const size = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--cell-size"));
   const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--cell-gap"));
-  const x = position.x * (size + gap);
-  const y = position.y * (size + gap) + offsetY;
+  const x = (position.x - 1) * (size + gap);
+  const y = (position.y - 1) * (size + gap) + offsetY;
 
   if (element.classList.contains("robot")) {
     element.style.transform = `translate(${x}px, ${y}px)`;

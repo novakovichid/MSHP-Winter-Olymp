@@ -7,8 +7,8 @@
   --border: #d7d7e0;
   --panel: #ffffff;
   --scale: 1;
-  --cell-size-base: 52px;
-  --cell-gap-base: 5px;
+  --cell-size-base: clamp(34px, 4.2vmin, 52px);
+  --cell-gap-base: clamp(3px, 0.6vmin, 6px);
   --grid-columns: 10;
   --grid-rows: 8;
   --cell-size: calc(var(--cell-size-base) * var(--scale));
@@ -30,7 +30,9 @@ body {
 
 .page {
   min-height: 100vh;
-  padding: 24px 28px 32px;
+  padding: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .hidden {
@@ -100,11 +102,11 @@ body {
 }
 
 .game__header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 18px;
 }
 
 .game__legend {
@@ -114,10 +116,9 @@ body {
 
 .game__controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
   align-items: end;
-  min-width: 340px;
 }
 
 .input-group {
@@ -135,26 +136,28 @@ body {
 
 .game__content {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: 18px;
   align-items: start;
 }
 
 .board-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto auto auto;
   gap: 12px;
+  align-content: start;
 }
 
 .overseer {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 16px;
   border: 2px solid var(--border);
   background: #ffffff;
   width: fit-content;
+  max-width: 100%;
 }
 
 .overseer img {
@@ -172,10 +175,10 @@ body {
 .board {
   position: relative;
   background: transparent;
-  border-radius: 0;
   padding: 0;
   border: none;
   min-height: auto;
+  overflow: hidden;
 }
 
 .grid {
@@ -281,10 +284,10 @@ body {
 
 .team__heroes {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
   gap: 12px;
-  padding: 16px 16px 28px;
+  padding: 14px 14px 24px;
   border-radius: 16px;
   background: linear-gradient(180deg, #ffffff 0%, #f4f6ff 100%);
   border: 2px solid #cfd5f7;
@@ -315,14 +318,14 @@ body {
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  gap: 14px;
+  align-content: start;
 }
 
 .panel {
   background: var(--panel);
-  border-radius: 20px;
+  border-radius: 18px;
   padding: 14px;
   border: 2px solid var(--border);
 }
@@ -362,7 +365,7 @@ body {
 
 .commands {
   display: grid;
-  grid-template-columns: repeat(2, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 8px;
 }
 
@@ -387,26 +390,31 @@ body {
 }
 
 @media (max-width: 1100px) {
+  .game__header {
+    grid-template-columns: 1fr;
+  }
+
   .game__content {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-height: 900px) {
-  :root {
-    --cell-size-base: 46px;
-    --cell-gap-base: 4px;
-  }
-
   .page {
-    padding: 16px 20px 24px;
+    padding: 16px;
   }
 
   .game__header {
     margin-bottom: 12px;
   }
+}
 
+@media (max-width: 720px) {
   .game__controls {
-    gap: 12px;
+    grid-template-columns: 1fr;
+  }
+
+  .panel__actions {
+    flex-direction: column;
   }
 }
