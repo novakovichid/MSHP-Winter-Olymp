@@ -9,8 +9,8 @@
 <body>
   <main class="page">
     <section class="game" id="game">
-      <header class="game__header">
-        <div>
+      <header class="game__top">
+        <div class="game__intro">
           <h2>Соберём команду героев!</h2>
           <p class="game__legend">Управляйте роботом, открывайте команды и собирайте супергероев МШП.</p>
         </div>
@@ -25,15 +25,15 @@
           </div>
           <div class="input-group">
             <label for="scale">Масштаб поля</label>
-            <input id="scale" type="range" min="70" max="130" value="100" />
+            <input id="scale" type="range" min="70" max="130" value="90" />
           </div>
           <button class="btn" id="reset">Сбросить прогресс</button>
           <button class="btn btn--ghost" id="back">Назад к выбору</button>
         </div>
       </header>
 
-      <section class="game__content">
-        <div class="board-wrapper">
+      <section class="game__layout">
+        <div class="board-area">
           <div class="overseer" id="overseer" aria-label="Плохишиш наблюдает"></div>
           <div class="board" id="board" aria-label="Игровое поле"></div>
           <div class="team" id="team">
@@ -47,12 +47,14 @@
           </div>
         </div>
 
-        <aside class="sidebar">
-          <div class="panel">
+        <aside class="game__info">
+          <div class="panel panel--costs">
             <h3>Стоимость команд</h3>
             <ul class="costs" id="costs"></ul>
           </div>
+        </aside>
 
+        <aside class="sidebar">
           <div class="panel panel--program">
             <h3>Программа</h3>
             <ol class="program" id="program"></ol>

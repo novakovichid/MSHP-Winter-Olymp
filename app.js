@@ -67,7 +67,7 @@ function buildInitialState(variantId) {
     points: 0,
     students: 10,
     selectedVariant,
-    scale: 100
+    scale: 90
   };
 }
 
