@@ -14,6 +14,7 @@
           <h2>Соберём команду героев!</h2>
           <p class="game__legend">Управляйте роботом, открывайте команды и собирайте супергероев МШП.</p>
         </div>
+        <div class="overseer" id="overseer" aria-label="Плохишиш наблюдает"></div>
         <div class="game__controls">
           <div class="input-group">
             <label for="students">Количество учеников</label>
@@ -36,34 +37,35 @@
         <div class="board-area">
           <div class="board-area__field">
             <div class="board" id="board" aria-label="Игровое поле"></div>
-            <div class="overseer" id="overseer" aria-label="Плохишиш наблюдает"></div>
           </div>
-          <div class="team" id="team">
-            <h3>Команда супергероев</h3>
-            <div class="team__heroes" id="teamHeroes">
-              <div class="team__hero" data-hero="supershish">
-                <img src="pictures/SUPERSHISH-2.png" alt="Супершиш" />
-                <span>Супершиш</span>
+          <div class="board-area__bottom">
+            <div class="team" id="team">
+              <h3>Команда супергероев</h3>
+              <div class="team__heroes" id="teamHeroes">
+                <div class="team__hero" data-hero="supershish">
+                  <img src="pictures/SUPERSHISH-2.png" alt="Супершиш" />
+                  <span>Супершиш</span>
+                </div>
               </div>
+            </div>
+            <div class="panel panel--costs">
+              <h3>Стоимость команд</h3>
+              <ul class="costs" id="costs"></ul>
             </div>
           </div>
         </div>
 
-        <aside class="sidebar">
-          <div class="panel panel--costs">
-            <h3>Стоимость команд</h3>
-            <ul class="costs" id="costs"></ul>
+        <div class="panel panel--program">
+          <h3>Программа</h3>
+          <ol class="program" id="program"></ol>
+          <div class="panel__actions">
+            <button class="btn btn--primary" id="run">Запустить</button>
+            <button class="btn" id="step">Шаг</button>
+            <button class="btn" id="clear">Очистить</button>
           </div>
-          <div class="panel panel--program">
-            <h3>Программа</h3>
-            <ol class="program" id="program"></ol>
-            <div class="panel__actions">
-              <button class="btn btn--primary" id="run">Запустить</button>
-              <button class="btn" id="step">Шаг</button>
-              <button class="btn" id="clear">Очистить</button>
-            </div>
-          </div>
+        </div>
 
+        <aside class="sidebar">
           <div class="panel panel--commands">
             <h3>Заблокированные команды</h3>
             <div class="commands" id="lockedCommands"></div>
