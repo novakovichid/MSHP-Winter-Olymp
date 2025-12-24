@@ -1,19 +1,229 @@
 {
-  "programs": {
-    "J3": {
-      "stage1": 115,
-      "hero": 200,
-      "final": 800
+  "variants": {
+    "winter-j3": {
+      "label": "Зимняя Олимпиада — J3",
+      "commands": [
+        { "id": "up", "label": "Вверх", "type": "move" },
+        { "id": "down", "label": "Вниз", "type": "move" },
+        { "id": "left", "label": "Влево", "type": "move" },
+        { "id": "right", "label": "Вправо", "type": "move" },
+        { "id": "jump", "label": "Прыгнуть", "type": "jump" },
+        { "id": "hero", "label": "Получить героя", "type": "hero" },
+        { "id": "storage", "label": "Открыть хранилище", "type": "storage" },
+        { "id": "box", "label": "Открыть ящик", "type": "box" }
+      ],
+      "stageRules": [
+        {
+          "id": "stage1",
+          "label": "Первая команда",
+          "commands": ["up", "down", "left", "right"]
+        },
+        {
+          "id": "hero",
+          "label": "Получение героя",
+          "commands": ["hero"]
+        },
+        {
+          "id": "final",
+          "label": "Финальный этап",
+          "commands": ["jump", "storage", "box"]
+        }
+      ],
+      "coefficients": {
+        "stage1": 115,
+        "hero": 200,
+        "final": 800
+      },
+      "commandCosts": {
+        "up": 150,
+        "left": 350,
+        "right": 400,
+        "down": 500,
+        "jump": 600,
+        "hero": 0,
+        "storage": 0,
+        "box": 0
+      }
     },
-    "J4": {
-      "stage1": 115,
-      "hero": 200,
-      "final": 800
+    "winter-j4": {
+      "label": "Зимняя Олимпиада — J4",
+      "commands": [
+        { "id": "up", "label": "Вверх", "type": "move" },
+        { "id": "down", "label": "Вниз", "type": "move" },
+        { "id": "left", "label": "Влево", "type": "move" },
+        { "id": "right", "label": "Вправо", "type": "move" },
+        { "id": "jump", "label": "Прыгнуть", "type": "jump" },
+        { "id": "hero", "label": "Получить героя", "type": "hero" },
+        { "id": "storage", "label": "Открыть хранилище", "type": "storage" },
+        { "id": "box", "label": "Открыть ящик", "type": "box" }
+      ],
+      "stageRules": [
+        {
+          "id": "stage1",
+          "label": "Первая команда",
+          "commands": ["up", "down", "left", "right"]
+        },
+        {
+          "id": "hero",
+          "label": "Получение героя",
+          "commands": ["hero"]
+        },
+        {
+          "id": "final",
+          "label": "Финальный этап",
+          "commands": ["jump", "storage", "box"]
+        }
+      ],
+      "coefficients": {
+        "stage1": 115,
+        "hero": 200,
+        "final": 800
+      },
+      "commandCosts": {
+        "up": 150,
+        "left": 350,
+        "right": 400,
+        "down": 500,
+        "jump": 600,
+        "hero": 0,
+        "storage": 0,
+        "box": 0
+      }
     },
-    "P3": {
-      "stage1": 115,
-      "hero": 200,
-      "final": 800
+    "spring-j3": {
+      "label": "Весенняя Олимпиада — J3",
+      "commands": [
+        { "id": "up", "label": "Вверх", "type": "move" },
+        { "id": "down", "label": "Вниз", "type": "move" },
+        { "id": "left", "label": "Влево", "type": "move" },
+        { "id": "right", "label": "Вправо", "type": "move" },
+        { "id": "jump", "label": "Прыгнуть", "type": "jump" },
+        { "id": "hero", "label": "Получить героя", "type": "hero" },
+        { "id": "storage", "label": "Открыть хранилище", "type": "storage" },
+        { "id": "box", "label": "Открыть ящик", "type": "box" }
+      ],
+      "stageRules": [
+        {
+          "id": "stage1",
+          "label": "Первая команда",
+          "commands": ["up", "down", "left", "right"]
+        },
+        {
+          "id": "hero",
+          "label": "Получение героя",
+          "commands": ["hero"]
+        },
+        {
+          "id": "final",
+          "label": "Финальный этап",
+          "commands": ["jump", "storage", "box"]
+        }
+      ],
+      "coefficients": {
+        "stage1": 115,
+        "hero": 200,
+        "final": 800
+      },
+      "commandCosts": {
+        "up": 150,
+        "left": 350,
+        "right": 400,
+        "down": 500,
+        "jump": 600,
+        "hero": 0,
+        "storage": 0,
+        "box": 0
+      }
+    },
+    "spring-j4": {
+      "label": "Весенняя Олимпиада — J4",
+      "commands": [
+        { "id": "up", "label": "Вверх", "type": "move" },
+        { "id": "down", "label": "Вниз", "type": "move" },
+        { "id": "left", "label": "Влево", "type": "move" },
+        { "id": "right", "label": "Вправо", "type": "move" },
+        { "id": "jump", "label": "Прыгнуть", "type": "jump" },
+        { "id": "hero", "label": "Получить героя", "type": "hero" },
+        { "id": "storage", "label": "Открыть хранилище", "type": "storage" },
+        { "id": "box", "label": "Открыть ящик", "type": "box" }
+      ],
+      "stageRules": [
+        {
+          "id": "stage1",
+          "label": "Первая команда",
+          "commands": ["up", "down", "left", "right"]
+        },
+        {
+          "id": "hero",
+          "label": "Получение героя",
+          "commands": ["hero"]
+        },
+        {
+          "id": "final",
+          "label": "Финальный этап",
+          "commands": ["jump", "storage", "box"]
+        }
+      ],
+      "coefficients": {
+        "stage1": 115,
+        "hero": 200,
+        "final": 800
+      },
+      "commandCosts": {
+        "up": 150,
+        "left": 350,
+        "right": 400,
+        "down": 500,
+        "jump": 600,
+        "hero": 0,
+        "storage": 0,
+        "box": 0
+      }
+    },
+    "spring-p3": {
+      "label": "Весенняя Олимпиада — P3",
+      "commands": [
+        { "id": "up", "label": "Вверх", "type": "move" },
+        { "id": "down", "label": "Вниз", "type": "move" },
+        { "id": "left", "label": "Влево", "type": "move" },
+        { "id": "right", "label": "Вправо", "type": "move" },
+        { "id": "jump", "label": "Прыгнуть", "type": "jump" },
+        { "id": "hero", "label": "Получить героя", "type": "hero" },
+        { "id": "storage", "label": "Открыть хранилище", "type": "storage" },
+        { "id": "box", "label": "Открыть ящик", "type": "box" }
+      ],
+      "stageRules": [
+        {
+          "id": "stage1",
+          "label": "Первая команда",
+          "commands": ["up", "down", "left", "right"]
+        },
+        {
+          "id": "hero",
+          "label": "Получение героя",
+          "commands": ["hero"]
+        },
+        {
+          "id": "final",
+          "label": "Финальный этап",
+          "commands": ["jump", "storage", "box"]
+        }
+      ],
+      "coefficients": {
+        "stage1": 115,
+        "hero": 200,
+        "final": 800
+      },
+      "commandCosts": {
+        "up": 150,
+        "left": 350,
+        "right": 400,
+        "down": 500,
+        "jump": 600,
+        "hero": 0,
+        "storage": 0,
+        "box": 0
+      }
     }
   }
 }
