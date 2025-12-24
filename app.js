@@ -67,7 +67,7 @@ function buildInitialState(variantId) {
     points: 0,
     students: 10,
     selectedVariant,
-    scale: 90
+    scale: 100
   };
 }
 
@@ -265,12 +265,14 @@ function renderBoard() {
     const box = createPiece("object", "pictures/box.png", "Ящик");
     box.classList.add("object--box");
     setGridPosition(box, variant.grid.box);
-    const lock = document.createElement("img");
-    lock.src = "pictures/lock.jpg";
-    lock.alt = "Замок";
-    lock.className = "object--lock";
-    box.appendChild(lock);
     grid.appendChild(box);
+  }
+
+  if (variant.grid.lock) {
+    const lock = createPiece("object", "pictures/lock.jpg", "Замок");
+    lock.classList.add("object--lock");
+    setGridPosition(lock, variant.grid.lock);
+    grid.appendChild(lock);
   }
 
   getHeroes().forEach((hero) => {
