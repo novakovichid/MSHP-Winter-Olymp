@@ -6,8 +6,11 @@
   --text: #1e1f26;
   --border: #d7d7e0;
   --panel: #ffffff;
-  --cell-size: 64px;
-  --cell-gap: 6px;
+  --scale: 1;
+  --cell-size-base: 56px;
+  --cell-gap-base: 6px;
+  --cell-size: calc(var(--cell-size-base) * var(--scale));
+  --cell-gap: calc(var(--cell-gap-base) * var(--scale));
 }
 
 * {
@@ -19,6 +22,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
+  overflow: hidden;
 }
 
 .page {
@@ -46,9 +50,24 @@ body {
   color: #5b5e72;
 }
 
+.menu__step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.menu__hint {
+  margin: 0;
+  font-size: 16px;
+  color: #5b5e72;
+}
+
 .menu__actions {
   display: flex;
   gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .btn {
@@ -123,14 +142,36 @@ body {
   gap: 16px;
 }
 
+.overseer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  background: #ffffff;
+  width: fit-content;
+}
+
+.overseer img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.overseer__text {
+  font-size: 14px;
+  color: #5b5e72;
+  margin: 0;
+}
+
 .board {
   position: relative;
-  background: #fff;
-  border-radius: 24px;
-  padding: 24px;
-  border: 2px solid var(--border);
-  min-height: 420px;
-  transform-origin: top left;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  border: none;
+  min-height: auto;
 }
 
 .grid {
@@ -143,9 +184,9 @@ body {
   position: absolute;
   width: var(--cell-size);
   height: var(--cell-size);
-  border: 2px solid #b8b9c8;
+  border: 2px solid #6f6f6f;
   border-radius: 8px;
-  background: #fdfdfd;
+  background: #ffffff;
 }
 
 .cell--target {
@@ -244,9 +285,25 @@ body {
 }
 
 .team__heroes {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  padding: 16px 16px 28px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f6ff 100%);
+  border: 2px solid #cfd5f7;
+}
+
+.team__heroes::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(77, 91, 212, 0.25) 0%, rgba(77, 91, 212, 0.05) 70%);
 }
 
 .team__hero {

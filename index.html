@@ -10,11 +10,18 @@
   <main class="page">
     <section class="menu" id="menu">
       <h1>Олимпиада Mark.Online</h1>
-      <p class="menu__subtitle">Выберите программу, чтобы начать игру</p>
-      <div class="menu__actions">
-        <button class="btn btn--primary" data-program="J3">J3</button>
-        <button class="btn btn--primary" data-program="J4">J4</button>
-        <button class="btn btn--primary" data-program="P3">P3</button>
+      <p class="menu__subtitle">Выберите сезон и программу, чтобы начать игру</p>
+      <div class="menu__step" id="seasonStep">
+        <p class="menu__hint">Шаг 1. Выберите сезон</p>
+        <div class="menu__actions">
+          <button class="btn btn--primary" data-season="winter">Зимняя Олимпиада</button>
+          <button class="btn btn--primary" data-season="spring">Весенняя Олимпиада</button>
+        </div>
+      </div>
+      <div class="menu__step hidden" id="programStep">
+        <p class="menu__hint">Шаг 2. Выберите программу</p>
+        <div class="menu__actions" id="programButtons"></div>
+        <button class="btn btn--ghost" id="backToSeason">Назад к сезону</button>
       </div>
     </section>
 
@@ -44,6 +51,7 @@
 
       <section class="game__content">
         <div class="board-wrapper">
+          <div class="overseer" id="overseer" aria-label="Плохишиш наблюдает"></div>
           <div class="board" id="board" aria-label="Игровое поле"></div>
           <div class="team" id="team">
             <h3>Команда супергероев</h3>

@@ -1,5 +1,6 @@
 const STORAGE_KEY = "mshp-olymp-state";
 const CONFIG_URL = "config.json";
+const BOARD_URL = "board.json";
 
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
@@ -18,110 +19,88 @@ const resetBtn = document.getElementById("reset");
 const backBtn = document.getElementById("back");
 const teamHeroes = document.getElementById("teamHeroes");
 const heroTemplate = document.getElementById("heroTemplate");
+const overseer = document.getElementById("overseer");
+const seasonStep = document.getElementById("seasonStep");
+const programStep = document.getElementById("programStep");
+const programButtons = document.getElementById("programButtons");
+const backToSeasonBtn = document.getElementById("backToSeason");
 
 let config = null;
+let boardConfig = null;
 let state = null;
 let programPointer = 0;
 let isRunning = false;
 let robotEl = null;
 
-const gridConfig = {
-  columns: 10,
-  rows: 8,
-  path: [
-    { x: 1, y: 6 },
-    { x: 2, y: 6 },
-    { x: 3, y: 6 },
-    { x: 4, y: 6 },
-    { x: 5, y: 6 },
-    { x: 5, y: 5 },
-    { x: 5, y: 4 },
-    { x: 5, y: 3 },
-    { x: 5, y: 2 },
-    { x: 4, y: 2 },
-    { x: 3, y: 2 },
-    { x: 2, y: 2 },
-    { x: 2, y: 3 },
-    { x: 2, y: 4 },
-    { x: 2, y: 5 },
-    { x: 3, y: 5 },
-    { x: 4, y: 5 },
-    { x: 6, y: 3 },
-    { x: 7, y: 3 },
-    { x: 8, y: 3 },
-    { x: 8, y: 2 },
-    { x: 8, y: 4 },
-    { x: 7, y: 2 },
-    { x: 7, y: 4 }
-  ],
-  start: { x: 1, y: 6 },
-  stone: { x: 6, y: 3 },
-  box: { x: 7, y: 3 },
-  badguy: { x: 7, y: 2 }
-};
+function getVariantConfig(variantId = state?.selectedVariant) {
+  return config?.variants?.[variantId] ?? null;
+}
 
-const heroes = [
-  { id: "vector", name: "Вектор", img: "pictures/vector.png", position: { x: 2, y: 2 } },
-  { id: "codeman", name: "Человек-Наук", img: "pictures/codeman.png", position: { x: 4, y: 2 } },
-  { id: "supermark", name: "Супер-Марк", img: "pictures/supermark.png", position: { x: 3, y: 5 } },
-  { id: "cyberjinn", name: "Киберджинн", img: "pictures/cyberjinn.png", position: { x: 5, y: 4 } },
-  { id: "robozeka", name: "Робозека", img: "pictures/robot.png", position: { x: 2, y: 5 } },
-  { id: "flashcone", name: "Флеш-шишка", img: "pictures/flashcone.png", position: { x: 4, y: 6 } }
-];
+function getBoardVariant(variantId = state?.selectedVariant) {
+  return boardConfig?.variants?.[variantId] ?? null;
+}
 
-const commandDefinitions = [
-  { id: "up", label: "Вверх", type: "move" },
-  { id: "down", label: "Вниз", type: "move" },
-  { id: "left", label: "Влево", type: "move" },
-  { id: "right", label: "Вправо", type: "move" },
-  { id: "jump", label: "Прыгнуть", type: "jump" },
-  { id: "hero", label: "Получить героя", type: "hero" },
-  { id: "storage", label: "Открыть хранилище", type: "storage" },
-  { id: "box", label: "Открыть ящик", type: "box" }
-];
+function getHeroes() {
+  return getBoardVariant()?.heroes ?? [];
+}
 
-const stageRules = [
-  {
-    id: "stage1",
-    label: "Первая команда",
-    commands: ["up", "down", "left", "right"]
-  },
-  {
-    id: "hero",
-    label: "Получение героя",
-    commands: ["hero"]
-  },
-  {
-    id: "final",
-    label: "Финальный этап",
-    commands: ["jump", "storage", "box"]
-  }
-];
+function getDefaultVariantId() {
+  const ids = Object.keys(config?.variants ?? {});
+  return ids.length > 0 ? ids[0] : null;
+}
 
-function loadState() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    return JSON.parse(saved);
-  }
+function buildInitialState(variantId) {
+  const selectedVariant = variantId ?? getDefaultVariantId();
+  const boardVariant = getBoardVariant(selectedVariant);
   return {
     program: [],
-    position: gridConfig.start,
+    position: boardVariant?.grid?.start ?? { x: 0, y: 0 },
     acquiredHeroes: [],
     availableCommands: [],
     boxOpened: false,
     points: 0,
     students: 10,
-    selectedProgram: null,
+    selectedVariant,
     scale: 100
   };
+}
+
+function getCommandDefinitions() {
+  return getVariantConfig()?.commands ?? [];
+}
+
+function getStageRules() {
+  return getVariantConfig()?.stageRules ?? [];
+}
+
+function loadState() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    const legacyVariant = parsed.selectedVariant ?? (parsed.selectedProgram ? `winter-${parsed.selectedProgram.toLowerCase()}` : null);
+    const baseState = buildInitialState(legacyVariant);
+    return {
+      ...baseState,
+      ...parsed,
+      selectedVariant: legacyVariant ?? baseState.selectedVariant,
+      position: parsed.position ?? baseState.position
+    };
+  }
+  return buildInitialState(null);
 }
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-function selectProgram(program) {
-  state.selectedProgram = program;
+function selectVariant(variantId) {
+  const nextState = buildInitialState(variantId);
+  state = {
+    ...nextState,
+    students: state?.students ?? nextState.students,
+    points: state?.points ?? nextState.points,
+    scale: state?.scale ?? nextState.scale
+  };
   saveState();
   menu.classList.add("hidden");
   game.classList.remove("hidden");
@@ -129,17 +108,7 @@ function selectProgram(program) {
 }
 
 function resetState() {
-  state = {
-    program: [],
-    position: gridConfig.start,
-    acquiredHeroes: [],
-    availableCommands: [],
-    boxOpened: false,
-    points: 0,
-    students: 10,
-    selectedProgram: state.selectedProgram,
-    scale: 100
-  };
+  state = buildInitialState(state.selectedVariant);
   saveState();
   setupGame();
 }
@@ -148,8 +117,10 @@ function setupGame() {
   studentsInput.value = state.students;
   pointsInput.value = state.points;
   scaleInput.value = state.scale;
+  renderOverseer();
   renderBoard();
   updateThresholds();
+  renderCommandCosts();
   updateCommands();
   renderProgram();
   renderTeam();
@@ -157,30 +128,22 @@ function setupGame() {
 }
 
 function updateScale() {
-  board.style.transform = `scale(${state.scale / 100})`;
+  document.documentElement.style.setProperty("--scale", state.scale / 100);
 }
 
 function updateThresholds() {
-  const programCoefficients = config?.programs[state.selectedProgram];
-  if (!programCoefficients) {
+  const variantConfig = getVariantConfig();
+  if (!variantConfig?.coefficients) {
     return;
   }
   const thresholds = {
-    stage1: programCoefficients.stage1 * state.students,
-    hero: programCoefficients.hero * state.students,
-    final: programCoefficients.final * state.students
+    stage1: variantConfig.coefficients.stage1 * state.students,
+    hero: variantConfig.coefficients.hero * state.students,
+    final: variantConfig.coefficients.final * state.students
   };
 
-  costsList.innerHTML = "";
-  stageRules.forEach((stage) => {
-    const item = document.createElement("li");
-    const value = thresholds[stage.id];
-    item.textContent = `${stage.label}: ${value}`;
-    costsList.appendChild(item);
-  });
-
   state.availableCommands = [];
-  stageRules.forEach((stage) => {
+  getStageRules().forEach((stage) => {
     if (state.points >= thresholds[stage.id]) {
       state.availableCommands.push(...stage.commands);
     }
@@ -189,11 +152,42 @@ function updateThresholds() {
   saveState();
 }
 
+function getCommandCost(commandId) {
+  const cost = getVariantConfig()?.commandCosts?.[commandId];
+  return Number.isFinite(cost) ? cost : 0;
+}
+
+function renderCommandCosts() {
+  costsList.innerHTML = "";
+  getCommandDefinitions().forEach((command) => {
+    const item = document.createElement("li");
+    const cost = getCommandCost(command.id) * state.students;
+    item.textContent = `${command.label} — ${cost}`;
+    costsList.appendChild(item);
+  });
+}
+
+function renderOverseer() {
+  const variant = getBoardVariant();
+  if (!overseer || !variant?.overseer) {
+    return;
+  }
+  overseer.innerHTML = "";
+  const img = document.createElement("img");
+  img.src = variant.overseer.img;
+  img.alt = variant.overseer.name;
+  const text = document.createElement("p");
+  text.className = "overseer__text";
+  text.textContent = variant.overseer.caption;
+  overseer.appendChild(img);
+  overseer.appendChild(text);
+}
+
 function updateCommands() {
   lockedCommandsEl.innerHTML = "";
   availableCommandsEl.innerHTML = "";
 
-  commandDefinitions.forEach((command) => {
+  getCommandDefinitions().forEach((command) => {
     const isAvailable = state.availableCommands.includes(command.id);
     const btn = document.createElement("button");
     btn.type = "button";
@@ -209,30 +203,29 @@ function updateCommands() {
 }
 
 function renderBoard() {
+  const variant = getBoardVariant();
+  if (!variant?.grid) {
+    return;
+  }
   board.innerHTML = "";
   const grid = document.createElement("div");
   grid.className = "grid";
 
-  gridConfig.path.forEach((cell) => {
+  variant.grid.path.forEach((cell) => {
     const cellEl = document.createElement("div");
     cellEl.className = "cell";
     placeAt(cellEl, cell);
     grid.appendChild(cellEl);
   });
 
-  const badguy = createPiece("badguy", "pictures/BADSHISH-3.png", "Плохишиш");
-  badguy.classList.add("badguy");
-  placeAt(badguy, gridConfig.badguy, -8);
-  grid.appendChild(badguy);
-
   const stone = createPiece("object", "pictures/stone.jpg", "Камень");
   stone.classList.add("object--stone");
-  placeAt(stone, gridConfig.stone);
+  placeAt(stone, variant.grid.stone);
   grid.appendChild(stone);
 
   const box = createPiece("object", "pictures/box.png", "Ящик");
   box.classList.add("object--box");
-  placeAt(box, gridConfig.box);
+  placeAt(box, variant.grid.box);
   const lock = document.createElement("img");
   lock.src = "pictures/lock.jpg";
   lock.alt = "Замок";
@@ -240,7 +233,7 @@ function renderBoard() {
   box.appendChild(lock);
   grid.appendChild(box);
 
-  heroes.forEach((hero) => {
+  getHeroes().forEach((hero) => {
     const heroEl = createPiece("hero", hero.img, hero.name);
     heroEl.dataset.hero = hero.id;
     if (state.acquiredHeroes.includes(hero.id)) {
@@ -296,7 +289,7 @@ function placeAt(element, position, offsetY = 0, isTiny = false) {
 function renderProgram() {
   programEl.innerHTML = "";
   state.program.forEach((commandId, index) => {
-    const command = commandDefinitions.find((item) => item.id === commandId);
+    const command = getCommandDefinitions().find((item) => item.id === commandId);
     const item = document.createElement("li");
     item.textContent = command ? command.label : commandId;
     if (index === programPointer && isRunning) {
@@ -310,7 +303,7 @@ function renderProgram() {
 function renderTeam() {
   teamHeroes.querySelectorAll(".team__hero:not([data-hero='supershish'])").forEach((hero) => hero.remove());
   state.acquiredHeroes.forEach((heroId) => {
-    const hero = heroes.find((item) => item.id === heroId);
+    const hero = getHeroes().find((item) => item.id === heroId);
     if (!hero) return;
     const clone = heroTemplate.content.cloneNode(true);
     const wrapper = clone.querySelector(".hero");
@@ -338,7 +331,8 @@ function clearProgram() {
 }
 
 function canMoveTo(position) {
-  return gridConfig.path.some((cell) => cell.x === position.x && cell.y === position.y);
+  const variant = getBoardVariant();
+  return variant?.grid?.path?.some((cell) => cell.x === position.x && cell.y === position.y);
 }
 
 function executeCommand(commandId) {
@@ -354,7 +348,8 @@ function executeCommand(commandId) {
     }[commandId];
 
     next = { x: current.x + delta.x, y: current.y + delta.y };
-    if (next.x === gridConfig.stone.x && next.y === gridConfig.stone.y) {
+    const stone = getBoardVariant()?.grid?.stone;
+    if (stone && next.x === stone.x && next.y === stone.y) {
       return;
     }
     if (canMoveTo(next)) {
@@ -374,7 +369,8 @@ function executeCommand(commandId) {
     directions.forEach((dir) => {
       const stonePos = { x: current.x + dir.x, y: current.y + dir.y };
       const landing = { x: current.x + dir.x * 2, y: current.y + dir.y * 2 };
-      if (stonePos.x === gridConfig.stone.x && stonePos.y === gridConfig.stone.y && canMoveTo(landing)) {
+      const stone = getBoardVariant()?.grid?.stone;
+      if (stone && stonePos.x === stone.x && stonePos.y === stone.y && canMoveTo(landing)) {
         state.position = landing;
         moveRobot();
       }
@@ -382,7 +378,7 @@ function executeCommand(commandId) {
   }
 
   if (commandId === "hero") {
-    const hero = heroes.find(
+    const hero = getHeroes().find(
       (item) => item.position.x === current.x && item.position.y === current.y
     );
     if (hero && !state.acquiredHeroes.includes(hero.id)) {
@@ -399,7 +395,8 @@ function executeCommand(commandId) {
   }
 
   if (commandId === "box") {
-    if (current.x === gridConfig.box.x && current.y === gridConfig.box.y) {
+    const box = getBoardVariant()?.grid?.box;
+    if (box && current.x === box.x && current.y === box.y) {
       state.boxOpened = true;
       saveState();
       renderBoard();
@@ -456,6 +453,7 @@ function handleInputChange() {
   state.points = Number(pointsInput.value);
   saveState();
   updateThresholds();
+  renderCommandCosts();
   updateCommands();
 }
 
@@ -473,17 +471,53 @@ function handleReset() {
 }
 
 async function init() {
-  const response = await fetch(CONFIG_URL);
-  config = await response.json();
+  const [configResponse, boardResponse] = await Promise.all([
+    fetch(CONFIG_URL),
+    fetch(BOARD_URL)
+  ]);
+  config = await configResponse.json();
+  boardConfig = await boardResponse.json();
   state = loadState();
 
-  document.querySelectorAll("[data-program]").forEach((button) => {
-    button.addEventListener("click", () => selectProgram(button.dataset.program));
+  const seasonPrograms = {
+    winter: ["J3", "J4"],
+    spring: ["J3", "J4", "P3"]
+  };
+
+  function showSeasonSelection() {
+    seasonStep.classList.remove("hidden");
+    programStep.classList.add("hidden");
+    programButtons.innerHTML = "";
+  }
+
+  function showProgramSelection(season) {
+    seasonStep.classList.add("hidden");
+    programStep.classList.remove("hidden");
+    programButtons.innerHTML = "";
+    const programs = seasonPrograms[season] ?? [];
+    programs.forEach((program) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn--primary";
+      btn.textContent = program;
+      btn.addEventListener("click", () => {
+        const variantId = `${season}-${program.toLowerCase()}`;
+        selectVariant(variantId);
+      });
+      programButtons.appendChild(btn);
+    });
+  }
+
+  document.querySelectorAll("[data-season]").forEach((button) => {
+    button.addEventListener("click", () => showProgramSelection(button.dataset.season));
   });
+
+  backToSeasonBtn.addEventListener("click", showSeasonSelection);
 
   backBtn.addEventListener("click", () => {
     menu.classList.remove("hidden");
     game.classList.add("hidden");
+    showSeasonSelection();
   });
 
   studentsInput.addEventListener("input", handleInputChange);
@@ -494,10 +528,12 @@ async function init() {
   stepBtn.addEventListener("click", stepProgram);
   resetBtn.addEventListener("click", handleReset);
 
-  if (state.selectedProgram) {
+  if (state.selectedVariant) {
     menu.classList.add("hidden");
     game.classList.remove("hidden");
     setupGame();
+  } else {
+    showSeasonSelection();
   }
 }
 
