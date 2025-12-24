@@ -33,6 +33,7 @@ let state = null;
 let programPointer = 0;
 let isRunning = false;
 let robotEl = null;
+let finaleEl = null;
 
 function getVariantConfig(variantId = state?.selectedVariant) {
   return config?.variants?.[variantId] ?? null;
@@ -138,6 +139,7 @@ function setupGame() {
   renderOverseer();
   updateScale();
   renderBoard();
+  renderFinale();
   updateThresholds();
   renderCommandCosts();
   updateCommands();
@@ -203,8 +205,8 @@ function renderOverseer() {
   const text = document.createElement("p");
   text.className = "overseer__text";
   text.textContent = variant.overseer.caption;
-  overseer.appendChild(img);
   overseer.appendChild(text);
+  overseer.appendChild(img);
 }
 
 function updateCommands() {
@@ -298,6 +300,26 @@ function renderBoard() {
   grid.appendChild(robotEl);
 
   board.appendChild(grid);
+}
+
+function renderFinale() {
+  const field = document.querySelector(".board-area__field");
+  if (!field) {
+    return;
+  }
+  if (!finaleEl) {
+    finaleEl = document.createElement("div");
+    finaleEl.className = "finale";
+    finaleEl.innerHTML = `
+      <div class="finale__burst"></div>
+      <div class="finale__card">
+        <h4>Ящик открыт!</h4>
+        <p>Сила команды раскрыта — герои готовы к финальной битве.</p>
+      </div>
+    `;
+    field.appendChild(finaleEl);
+  }
+  finaleEl.classList.toggle("finale--active", Boolean(state.boxOpened));
 }
 
 function createPiece(className, imgSrc, label) {
@@ -427,7 +449,10 @@ function executeCommand(commandId) {
   }
 
   if (commandId === "storage") {
-    alert("Хранилище открыто! Теперь можно открыть ящик.");
+    const lock = getBoardVariant()?.grid?.lock;
+    if (lock && current.x === lock.x && current.y === lock.y) {
+      alert("Хранилище открыто! Теперь можно открыть ящик.");
+    }
   }
 
   if (commandId === "box") {
@@ -436,6 +461,7 @@ function executeCommand(commandId) {
       state.boxOpened = true;
       saveState();
       renderBoard();
+      renderFinale();
     }
   }
 }
@@ -459,10 +485,20 @@ function moveRobot() {
   saveState();
 }
 
+function resetRobotPosition() {
+  const start = getBoardVariant()?.grid?.start;
+  if (!start) {
+    return;
+  }
+  state.position = { ...start };
+  moveRobot();
+}
+
 async function runProgram() {
   if (isRunning || state.program.length === 0) {
     return;
   }
+  resetRobotPosition();
   isRunning = true;
   programPointer = 0;
   renderProgram();

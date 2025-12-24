@@ -159,7 +159,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(200px, 220px) minmax(200px, 220px);
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 260px) minmax(260px, 360px);
   gap: 18px;
   align-items: start;
   flex: 1;
@@ -171,7 +171,7 @@ body {
   flex-direction: column;
   gap: 12px;
   align-self: stretch;
-  padding-top: 80px;
+  padding-top: 0;
 }
 
 .panel--costs {
@@ -191,11 +191,12 @@ body {
   align-items: flex-start;
   gap: 24px;
   min-height: 320px;
+  position: relative;
 }
 
 .overseer {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   gap: 8px;
   padding: 0;
@@ -377,11 +378,12 @@ body {
   display: flex;
   gap: 14px;
   align-items: flex-end;
-  padding: 28px 12px 28px;
+  padding: 28px 12px 36px;
   border-radius: 16px;
   background: transparent;
   border: none;
-  min-height: 120px;
+  min-height: 140px;
+  width: 100%;
   overflow: visible;
 }
 
@@ -393,7 +395,7 @@ body {
   bottom: 10px;
   height: 16px;
   background-image: radial-gradient(ellipse at center, #3b49c9 0 50%, transparent 55%);
-  background-size: 90px 18px;
+  background-size: 80px 18px;
   background-repeat: repeat-x;
   opacity: 0.8;
 }
@@ -431,6 +433,7 @@ body {
 
 .sidebar {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   align-content: start;
   min-height: 0;
@@ -449,6 +452,7 @@ body {
   flex-direction: column;
   min-height: 320px;
   border-color: #3b49c9;
+  grid-column: 1 / -1;
 }
 
 .panel--commands {
@@ -481,6 +485,58 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.finale {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.finale--active {
+  opacity: 1;
+}
+
+.finale__burst {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 231, 107, 0.9) 0, rgba(247, 181, 0, 0.3) 55%, rgba(255, 255, 255, 0) 70%);
+  animation: finaleGlow 1.6s ease-in-out infinite;
+}
+
+.finale__card {
+  position: relative;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid #3b49c9;
+  box-shadow: 0 14px 30px rgba(59, 73, 201, 0.22);
+  text-align: center;
+  max-width: 320px;
+}
+
+.finale__card h4 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: #2c2e4a;
+}
+
+.finale__card p {
+  margin: 0;
+  font-size: 13px;
+  color: #4b4f66;
+}
+
+@keyframes finaleGlow {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
 }
 
 .commands {
