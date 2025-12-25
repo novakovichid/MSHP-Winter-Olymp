@@ -156,22 +156,36 @@ function updateScale(shouldRenderBoard = false) {
 
 function updateThresholds() {
   const variantConfig = getVariantConfig();
-  if (!variantConfig?.coefficients) {
+  if (!variantConfig) {
     return;
   }
-  const thresholds = {
-    commands: variantConfig.coefficients.commands * state.students,
-    hero: variantConfig.coefficients.hero * state.students,
-    final: variantConfig.coefficients.final * state.students
-  };
+  const commandCosts = variantConfig.commandCosts ?? {};
+  const hasCosts = Object.keys(commandCosts).length > 0;
 
-  state.availableCommands = [];
-  getStageRules().forEach((stage) => {
-    if (state.points >= thresholds[stage.id]) {
-      state.availableCommands.push(...stage.commands);
-    }
-  });
-  state.availableCommands = [...new Set(state.availableCommands)];
+  if (hasCosts) {
+    state.availableCommands = getCommandDefinitions()
+      .filter((command) => {
+        const cost = commandCosts[command.id];
+        return Number.isFinite(cost) && state.points >= cost * state.students;
+      })
+      .map((command) => command.id);
+  } else if (variantConfig.coefficients) {
+    const thresholds = {
+      commands: variantConfig.coefficients.commands * state.students,
+      hero: variantConfig.coefficients.hero * state.students,
+      final: variantConfig.coefficients.final * state.students
+    };
+
+    state.availableCommands = [];
+    getStageRules().forEach((stage) => {
+      if (state.points >= thresholds[stage.id]) {
+        state.availableCommands.push(...stage.commands);
+      }
+    });
+    state.availableCommands = [...new Set(state.availableCommands)];
+  } else {
+    state.availableCommands = [];
+  }
   saveState();
 }
 

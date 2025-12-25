@@ -7,8 +7,8 @@
   --border: #c8c8d4;
   --panel: #ffffff;
   --scale: 1;
-  --cell-size-base: clamp(32px, 3.4vmin, 44px);
-  --cell-gap-base: clamp(4px, 0.6vmin, 6px);
+  --cell-size-base: clamp(36px, 4vmin, 50px);
+  --cell-gap-base: clamp(4px, 0.7vmin, 7px);
   --grid-columns: 10;
   --grid-rows: 8;
   --cell-size: calc(var(--cell-size-base) * var(--scale));
@@ -160,7 +160,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 380px) minmax(240px, 300px);
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 380px) minmax(240px, 300px);
   gap: 20px;
   align-items: start;
   flex: 1;
@@ -172,21 +172,23 @@ body {
   grid-template-rows: auto auto;
   gap: 18px;
   align-content: start;
-  justify-items: start;
+  justify-items: stretch;
+  width: 100%;
 }
 
 .board-area__field {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 16px;
   min-height: 320px;
   position: relative;
+  width: 100%;
 }
 
 .board-area__bottom {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 280px);
   gap: 18px;
   width: 100%;
   align-items: start;
@@ -194,7 +196,7 @@ body {
 
 .overseer {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
   padding: 0;
@@ -251,6 +253,9 @@ body {
   min-height: auto;
   overflow: visible;
   margin-top: 6px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .grid {
@@ -374,10 +379,14 @@ body {
 
 .team__heroes {
   position: relative;
-  display: flex;
-  gap: 0;
-  align-items: flex-end;
-  padding: 28px 12px 36px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--team-slot);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 18px 0;
+  align-items: end;
+  align-content: end;
+  padding: 28px 12px 64px;
   border-radius: 16px;
   background: transparent;
   border: none;
@@ -392,10 +401,13 @@ body {
   left: 0;
   right: 0;
   bottom: 10px;
-  height: 16px;
-  background-image: radial-gradient(ellipse at center, #3b49c9 0 50%, transparent 55%);
+  height: 54px;
+  background-image:
+    radial-gradient(ellipse at center, #3b49c9 0 50%, transparent 55%),
+    radial-gradient(ellipse at center, #3b49c9 0 50%, transparent 55%);
   background-size: var(--team-slot) 18px;
   background-repeat: repeat-x;
+  background-position: 0 0, 0 calc(100% - 6px);
   opacity: 0.8;
 }
 
@@ -447,6 +459,7 @@ body {
 
 .panel--costs {
   padding: 10px 12px;
+  max-width: 280px;
 }
 
 .panel--program {
@@ -473,6 +486,7 @@ body {
   flex-direction: column;
   gap: 6px;
   font-size: 12px;
+  word-break: break-word;
 }
 
 .program {
