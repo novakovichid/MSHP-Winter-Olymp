@@ -34,6 +34,8 @@ let programPointer = 0;
 let isRunning = false;
 let robotEl = null;
 let finaleEl = null;
+let resizeObserver = null;
+let hasScaleObserver = false;
 
 function getVariantConfig(variantId = state?.selectedVariant) {
   return config?.variants?.[variantId] ?? null;
@@ -141,6 +143,47 @@ function setupGame() {
   updateCommands();
   renderProgram();
   renderTeam();
+  updateBoardScale();
+}
+
+function updateBoardScale() {
+  if (!isGamePage) {
+    return;
+  }
+  const field = document.querySelector(".board-area__field");
+  const variant = getBoardVariant();
+  if (!field || !variant?.grid) {
+    return;
+  }
+  const availableWidth = field.clientWidth;
+  const availableHeight = field.clientHeight;
+  if (!availableWidth || !availableHeight) {
+    return;
+  }
+  const rootStyles = getComputedStyle(document.documentElement);
+  const baseCell = parseFloat(rootStyles.getPropertyValue("--cell-size-base")) || 36;
+  const baseGap = parseFloat(rootStyles.getPropertyValue("--cell-gap-base")) || 4;
+  const columns = Number(variant.grid.columns) || 1;
+  const rows = Number(variant.grid.rows) || 1;
+  const totalWidth = columns * baseCell + (columns - 1) * baseGap;
+  const totalHeight = rows * baseCell + (rows - 1) * baseGap;
+  const scale = Math.min(availableWidth / totalWidth, availableHeight / totalHeight);
+  const nextScale = Math.max(0.6, Math.min(scale, 3));
+  document.body.style.setProperty("--scale", nextScale.toFixed(3));
+}
+
+function ensureScaleObserver() {
+  if (hasScaleObserver) {
+    return;
+  }
+  const field = document.querySelector(".board-area__field");
+  if (!field) {
+    return;
+  }
+  resizeObserver = new ResizeObserver(updateBoardScale);
+  resizeObserver.observe(field);
+  window.addEventListener("resize", updateBoardScale);
+  hasScaleObserver = true;
 }
 
 function updateThresholds() {
@@ -568,11 +611,31 @@ function handleReset() {
 }
 
 function toggleFullscreen() {
-  const isFullscreen = document.body.classList.toggle("is-fullscreen");
+  if (document.fullscreenEnabled) {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {
+        const nextState = !document.body.classList.contains("is-fullscreen");
+        setFullscreenState(nextState);
+      });
+    } else {
+      document.exitFullscreen().catch(() => {
+        const nextState = !document.body.classList.contains("is-fullscreen");
+        setFullscreenState(nextState);
+      });
+    }
+    return;
+  }
+  const nextState = !document.body.classList.contains("is-fullscreen");
+  setFullscreenState(nextState);
+}
+
+function setFullscreenState(isFullscreen) {
+  document.body.classList.toggle("is-fullscreen", isFullscreen);
   if (fullscreenToggle) {
     fullscreenToggle.textContent = isFullscreen ? "Вернуться" : "Во весь экран";
     fullscreenToggle.setAttribute("aria-pressed", String(isFullscreen));
   }
+  updateBoardScale();
 }
 
 async function init() {
@@ -683,6 +746,10 @@ async function init() {
 
   if (isGamePage) {
     document.body.classList.add("game-mode");
+    ensureScaleObserver();
+    document.addEventListener("fullscreenchange", () => {
+      setFullscreenState(Boolean(document.fullscreenElement));
+    });
     if (variantParam && !isValidVariant(variantParam)) {
       window.location.href = "index.html";
       return;
