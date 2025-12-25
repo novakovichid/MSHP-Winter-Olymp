@@ -6,8 +6,7 @@ const menu = document.getElementById("menu");
 const game = document.getElementById("game");
 const board = document.getElementById("board");
 const costsList = document.getElementById("costs");
-const lockedCommandsEl = document.getElementById("lockedCommands");
-const availableCommandsEl = document.getElementById("availableCommands");
+const commandsEl = document.getElementById("commands");
 const programEl = document.getElementById("program");
 const studentsInput = document.getElementById("students");
 const pointsInput = document.getElementById("points");
@@ -16,6 +15,7 @@ const stepBtn = document.getElementById("step");
 const clearBtn = document.getElementById("clear");
 const removeBtn = document.getElementById("remove");
 const resetBtn = document.getElementById("reset");
+const fullscreenToggle = document.getElementById("fullscreenToggle");
 const backBtn = document.getElementById("back");
 const teamHeroes = document.getElementById("teamHeroes");
 const heroTemplate = document.getElementById("heroTemplate");
@@ -213,11 +213,10 @@ function renderOverseer() {
 }
 
 function updateCommands() {
-  if (!lockedCommandsEl || !availableCommandsEl) {
+  if (!commandsEl) {
     return;
   }
-  lockedCommandsEl.innerHTML = "";
-  availableCommandsEl.innerHTML = "";
+  commandsEl.innerHTML = "";
 
   getCommandDefinitions().forEach((command) => {
     const isAvailable = state.availableCommands.includes(command.id);
@@ -227,10 +226,11 @@ function updateCommands() {
     btn.className = `command-btn ${isAvailable ? "command-btn--available" : "command-btn--locked"}`;
     if (isAvailable) {
       btn.addEventListener("click", () => addToProgram(command.id));
-      availableCommandsEl.appendChild(btn);
     } else {
-      lockedCommandsEl.appendChild(btn);
+      btn.disabled = true;
+      btn.setAttribute("aria-disabled", "true");
     }
+    commandsEl.appendChild(btn);
   });
 }
 
@@ -567,6 +567,14 @@ function handleReset() {
   }
 }
 
+function toggleFullscreen() {
+  const isFullscreen = document.body.classList.toggle("is-fullscreen");
+  if (fullscreenToggle) {
+    fullscreenToggle.textContent = isFullscreen ? "Вернуться" : "Во весь экран";
+    fullscreenToggle.setAttribute("aria-pressed", String(isFullscreen));
+  }
+}
+
 async function init() {
   const [configResponse, boardResponse] = await Promise.all([
     fetch(CONFIG_URL),
@@ -642,6 +650,10 @@ async function init() {
     });
   }
 
+  if (fullscreenToggle) {
+    fullscreenToggle.addEventListener("click", toggleFullscreen);
+  }
+
   if (studentsInput) {
     studentsInput.addEventListener("input", handleInputChange);
   }
@@ -670,6 +682,7 @@ async function init() {
   }
 
   if (isGamePage) {
+    document.body.classList.add("game-mode");
     if (variantParam && !isValidVariant(variantParam)) {
       window.location.href = "index.html";
       return;

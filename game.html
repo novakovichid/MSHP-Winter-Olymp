@@ -23,7 +23,7 @@
         </div>
 
         <div class="game__side">
-          <header class="game__top">
+          <header class="panel game__summary">
             <div class="game__intro">
               <h2>Соберём команду героев!</h2>
               <p class="game__legend">Управляйте роботом, открывайте команды и собирайте супергероев МШП.</p>
@@ -43,32 +43,28 @@
                 <ul class="costs costs--compact" id="costs"></ul>
               </div>
               <button class="btn" id="reset">Сбросить прогресс</button>
+              <button class="btn" id="fullscreenToggle">Во весь экран</button>
               <button class="btn btn--ghost" id="back">Назад к выбору</button>
             </div>
           </header>
 
-          <div class="panel panel--program">
-            <h3>Программа</h3>
-            <ol class="program" id="program"></ol>
-            <div class="panel__actions">
-              <button class="btn btn--primary" id="run">Запустить</button>
-              <button class="btn" id="step">Шаг</button>
-              <button class="btn" id="clear">Очистить</button>
-              <button class="btn btn--ghost" id="remove">Удалить</button>
+          <div class="game__bottom">
+            <div class="panel panel--program">
+              <h3>Программа</h3>
+              <ol class="program" id="program"></ol>
+              <div class="panel__actions">
+                <button class="btn btn--primary" id="run">Запустить</button>
+                <button class="btn" id="step">Шаг</button>
+                <button class="btn" id="clear">Очистить</button>
+                <button class="btn btn--ghost" id="remove">Удалить</button>
+              </div>
+            </div>
+
+            <div class="panel panel--commands panel--commands-wide">
+              <h3>Команды</h3>
+              <div class="commands" id="commands"></div>
             </div>
           </div>
-
-          <aside class="sidebar">
-            <div class="panel panel--commands">
-              <h3>Заблокированные команды</h3>
-              <div class="commands" id="lockedCommands"></div>
-            </div>
-
-            <div class="panel panel--commands panel--available">
-              <h3>Доступные команды</h3>
-              <div class="commands" id="availableCommands"></div>
-            </div>
-          </aside>
         </div>
       </section>
     </section>
