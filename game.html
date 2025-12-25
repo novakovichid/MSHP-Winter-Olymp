@@ -9,30 +9,6 @@
 <body>
   <main class="page">
     <section class="game" id="game">
-      <header class="game__top">
-        <div class="game__intro">
-          <h2>Соберём команду героев!</h2>
-          <p class="game__legend">Управляйте роботом, открывайте команды и собирайте супергероев МШП.</p>
-        </div>
-        <div class="overseer" id="overseer" aria-label="Плохишиш наблюдает"></div>
-        <div class="game__controls">
-          <div class="input-group">
-            <label for="students">Количество учеников</label>
-            <input id="students" type="number" min="1" value="10" />
-          </div>
-          <div class="input-group">
-            <label for="points">Баллы группы</label>
-            <input id="points" type="number" min="0" value="0" />
-          </div>
-          <div class="panel panel--costs panel--costs-compact">
-            <h3>Стоимость команд</h3>
-            <ul class="costs costs--compact" id="costs"></ul>
-          </div>
-          <button class="btn" id="reset">Сбросить прогресс</button>
-          <button class="btn btn--ghost" id="back">Назад к выбору</button>
-        </div>
-      </header>
-
       <section class="game__layout">
         <div class="board-area">
           <div class="board-area__field">
@@ -46,28 +22,54 @@
           </div>
         </div>
 
-        <div class="panel panel--program">
-          <h3>Программа</h3>
-          <ol class="program" id="program"></ol>
-          <div class="panel__actions">
-            <button class="btn btn--primary" id="run">Запустить</button>
-            <button class="btn" id="step">Шаг</button>
-            <button class="btn" id="clear">Очистить</button>
-            <button class="btn btn--ghost" id="remove">Удалить</button>
+        <div class="game__side">
+          <header class="game__top">
+            <div class="game__intro">
+              <h2>Соберём команду героев!</h2>
+              <p class="game__legend">Управляйте роботом, открывайте команды и собирайте супергероев МШП.</p>
+            </div>
+            <div class="overseer" id="overseer" aria-label="Плохишиш наблюдает"></div>
+            <div class="game__controls">
+              <div class="input-group">
+                <label for="students">Количество учеников</label>
+                <input id="students" type="number" min="1" value="10" />
+              </div>
+              <div class="input-group">
+                <label for="points">Баллы группы</label>
+                <input id="points" type="number" min="0" value="0" />
+              </div>
+              <div class="panel panel--costs panel--costs-compact">
+                <h3>Стоимость команд</h3>
+                <ul class="costs costs--compact" id="costs"></ul>
+              </div>
+              <button class="btn" id="reset">Сбросить прогресс</button>
+              <button class="btn btn--ghost" id="back">Назад к выбору</button>
+            </div>
+          </header>
+
+          <div class="panel panel--program">
+            <h3>Программа</h3>
+            <ol class="program" id="program"></ol>
+            <div class="panel__actions">
+              <button class="btn btn--primary" id="run">Запустить</button>
+              <button class="btn" id="step">Шаг</button>
+              <button class="btn" id="clear">Очистить</button>
+              <button class="btn btn--ghost" id="remove">Удалить</button>
+            </div>
           </div>
+
+          <aside class="sidebar">
+            <div class="panel panel--commands">
+              <h3>Заблокированные команды</h3>
+              <div class="commands" id="lockedCommands"></div>
+            </div>
+
+            <div class="panel panel--commands panel--available">
+              <h3>Доступные команды</h3>
+              <div class="commands" id="availableCommands"></div>
+            </div>
+          </aside>
         </div>
-
-        <aside class="sidebar">
-          <div class="panel panel--commands">
-            <h3>Заблокированные команды</h3>
-            <div class="commands" id="lockedCommands"></div>
-          </div>
-
-          <div class="panel panel--commands panel--available">
-            <h3>Доступные команды</h3>
-            <div class="commands" id="availableCommands"></div>
-          </div>
-        </aside>
       </section>
     </section>
   </main>
