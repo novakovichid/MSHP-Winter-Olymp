@@ -406,7 +406,17 @@ function renderTeam() {
     return;
   }
   teamHeroes.innerHTML = "";
-  getHeroes().forEach((hero) => {
+  const teamLineup = [
+    ...getHeroes(),
+    {
+      id: "supershish",
+      name: "Супершиш",
+      img: "pictures/SUPERSHISH-2.png",
+      alwaysVisible: true
+    }
+  ];
+
+  teamLineup.forEach((hero) => {
     const clone = heroTemplate.content.cloneNode(true);
     const wrapper = clone.querySelector(".hero");
     wrapper.className = "team__hero";
@@ -414,7 +424,7 @@ function renderTeam() {
     const img = wrapper.querySelector("img");
     const name = wrapper.querySelector("span");
     name.textContent = hero.name;
-    if (state.acquiredHeroes.includes(hero.id)) {
+    if (hero.alwaysVisible || state.acquiredHeroes.includes(hero.id)) {
       img.src = hero.img;
       img.alt = hero.name;
     } else {

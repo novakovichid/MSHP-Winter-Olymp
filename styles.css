@@ -118,6 +118,8 @@ body {
   grid-template-columns: 1fr auto;
   gap: 14px;
   align-items: start;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .game__intro h2 {
@@ -160,7 +162,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 3.4fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 3.2fr) minmax(220px, 1.35fr) minmax(260px, 1fr);
   gap: 16px;
   align-items: stretch;
   flex: 1;
@@ -181,13 +183,13 @@ body {
 .board-area__field {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 16px;
   min-height: 0;
   position: relative;
   width: 100%;
   flex: 1;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .board-area__bottom {
@@ -207,16 +209,22 @@ body {
   min-height: 0;
   height: 100%;
   max-width: 380px;
-  overflow: hidden;
+  overflow: auto;
 }
 
-.game__bottom {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+.game__tools {
+  display: flex;
+  flex-direction: column;
   gap: 14px;
-  align-items: stretch;
+  min-width: 0;
   min-height: 0;
+  height: 100%;
+  overflow: auto;
+}
+
+.game__tools .panel {
   flex: 1;
+  min-height: 0;
 }
 
 .overseer {
@@ -280,8 +288,8 @@ body {
   margin-top: 6px;
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex: 1;
   min-height: 0;
 }
@@ -647,6 +655,7 @@ body.is-fullscreen {
 }
 
 body.is-fullscreen .game__side,
+body.is-fullscreen .game__tools,
 body.is-fullscreen .board-area__bottom {
   display: none;
 }
@@ -682,9 +691,6 @@ body.is-fullscreen .board {
     grid-template-columns: 1fr;
   }
 
-  .game__bottom {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 1280px) {
