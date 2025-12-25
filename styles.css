@@ -11,8 +11,6 @@
   --cell-gap-base: clamp(4px, 0.7vmin, 7px);
   --grid-columns: 10;
   --grid-rows: 8;
-  --cell-size: calc(var(--cell-size-base) * var(--scale));
-  --cell-gap: calc(var(--cell-gap-base) * var(--scale));
   --team-slot: 84px;
 }
 
@@ -27,6 +25,8 @@ body {
   color: var(--text);
   overflow-x: hidden;
   overflow-y: auto;
+  --cell-size: calc(var(--cell-size-base) * var(--scale));
+  --cell-gap: calc(var(--cell-gap-base) * var(--scale));
 }
 
 .page {
@@ -165,6 +165,7 @@ body {
   align-items: stretch;
   flex: 1;
   min-height: 0;
+  height: 100%;
 }
 
 .board-area {
@@ -181,7 +182,7 @@ body {
 .board-area__field {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 16px;
   min-height: 0;
   position: relative;
@@ -212,7 +213,7 @@ body {
 
 .game__tools {
   display: grid;
-  grid-template-rows: 7fr 3fr;
+  grid-template-rows: minmax(0, 6fr) minmax(min-content, 4fr);
   gap: 14px;
   min-width: 0;
   min-height: 0;
@@ -286,6 +287,7 @@ body {
   overflow: visible;
   margin-top: 6px;
   width: 100%;
+  height: 100%;
   padding-right: 0;
   display: flex;
   justify-content: center;
@@ -529,9 +531,10 @@ body {
 .program {
   min-height: 0;
   margin: 0 0 10px;
-  padding-left: 18px;
+  padding-left: 0;
   flex: 1;
   overflow: auto;
+  list-style-position: inside;
 }
 
 .panel__actions {
