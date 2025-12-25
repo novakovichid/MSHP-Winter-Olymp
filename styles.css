@@ -160,7 +160,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 4.4fr) minmax(200px, 1fr) minmax(220px, 0.85fr);
+  grid-template-columns: minmax(0, 5.5fr) minmax(200px, 1fr) minmax(220px, 0.8fr);
   gap: 16px;
   align-items: stretch;
   flex: 1;
@@ -211,8 +211,8 @@ body {
 }
 
 .game__tools {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 7fr 3fr;
   gap: 14px;
   min-width: 0;
   min-height: 0;
@@ -503,8 +503,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  flex: 0 0 auto;
-  max-height: 320px;
+  flex: 1;
 }
 
 .panel--commands-wide {
@@ -537,8 +536,8 @@ body {
 
 .panel__actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
 }
 
 .panel__actions .btn {
