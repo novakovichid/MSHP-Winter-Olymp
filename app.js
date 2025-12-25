@@ -16,6 +16,7 @@ const clearBtn = document.getElementById("clear");
 const removeBtn = document.getElementById("remove");
 const resetBtn = document.getElementById("reset");
 const fullscreenToggle = document.getElementById("fullscreenToggle");
+const fullscreenExit = document.getElementById("fullscreenExit");
 const backBtn = document.getElementById("back");
 const teamHeroes = document.getElementById("teamHeroes");
 const heroTemplate = document.getElementById("heroTemplate");
@@ -725,6 +726,9 @@ async function init() {
 
   if (fullscreenToggle) {
     fullscreenToggle.addEventListener("click", toggleFullscreen);
+  }
+  if (fullscreenExit) {
+    fullscreenExit.addEventListener("click", toggleFullscreen);
   }
 
   if (studentsInput) {

@@ -160,7 +160,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 3.8fr) minmax(200px, 1.1fr) minmax(220px, 0.9fr);
+  grid-template-columns: minmax(0, 4.4fr) minmax(200px, 1fr) minmax(220px, 0.85fr);
   gap: 16px;
   align-items: stretch;
   flex: 1;
@@ -286,6 +286,7 @@ body {
   overflow: visible;
   margin-top: 6px;
   width: 100%;
+  padding-right: 0;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -656,6 +657,15 @@ body.is-fullscreen {
   --scale: 1.35;
 }
 
+body.is-fullscreen .page {
+  padding: 0;
+  max-width: 100%;
+}
+
+body.is-fullscreen .game__layout {
+  grid-template-columns: 1fr;
+}
+
 body.is-fullscreen .game__side,
 body.is-fullscreen .game__tools,
 body.is-fullscreen .board-area__bottom {
@@ -664,16 +674,32 @@ body.is-fullscreen .board-area__bottom {
 
 body.is-fullscreen .board-area {
   grid-template-rows: 1fr;
+  gap: 0;
 }
 
 body.is-fullscreen .board-area__field {
   height: 100%;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 }
 
 body.is-fullscreen .board {
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-right: 0;
+}
+
+.fullscreen-exit {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 6;
+  display: none;
+}
+
+body.is-fullscreen .fullscreen-exit {
+  display: inline-flex;
 }
 
 @media (max-width: 1100px) {
