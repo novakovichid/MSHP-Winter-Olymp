@@ -114,10 +114,7 @@ body {
 }
 
 .game__summary {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 14px;
-  align-items: start;
+  display: block;
   max-height: 100%;
   overflow: auto;
 }
@@ -143,6 +140,7 @@ body {
   border: 1px solid #d6d7e6;
   background: #f7f8fc;
   grid-column: 1 / -1;
+  clear: both;
 }
 
 .input-group {
@@ -162,7 +160,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 3.2fr) minmax(220px, 1.35fr) minmax(260px, 1fr);
+  grid-template-columns: minmax(0, 3.8fr) minmax(200px, 1.1fr) minmax(220px, 0.9fr);
   gap: 16px;
   align-items: stretch;
   flex: 1;
@@ -208,7 +206,7 @@ body {
   min-width: 0;
   min-height: 0;
   height: 100%;
-  max-width: 380px;
+  max-width: 320px;
   overflow: auto;
 }
 
@@ -236,9 +234,10 @@ body {
   border: none;
   background: transparent;
   width: fit-content;
-  max-width: 220px;
+  max-width: 200px;
   margin-top: 0;
-  align-self: center;
+  float: right;
+  margin: 0 0 10px 12px;
 }
 
 .overseer img {
@@ -503,6 +502,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  flex: 0 0 auto;
+  max-height: 320px;
 }
 
 .panel--commands-wide {
@@ -596,9 +597,9 @@ body {
 }
 
 .commands {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 8px;
   overflow: auto;
   flex: 1;
 }
@@ -610,6 +611,7 @@ body {
   border: none;
   background: #dfe3ff;
   color: #2c2e4a;
+  width: 100%;
 }
 
 .object--lock img {
