@@ -6,7 +6,7 @@
   --text: #1b1c22;
   --border: #c8c8d4;
   --panel: #ffffff;
-  --scale: 1.15;
+  --scale: 1.25;
   --cell-size-base: clamp(36px, 4vmin, 50px);
   --cell-gap-base: clamp(4px, 0.7vmin, 7px);
   --grid-columns: 10;
@@ -160,7 +160,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 3.4fr) minmax(0, 0.9fr);
   gap: 16px;
   align-items: stretch;
   flex: 1;
@@ -206,6 +206,8 @@ body {
   min-width: 0;
   min-height: 0;
   height: 100%;
+  max-width: 380px;
+  overflow: hidden;
 }
 
 .game__bottom {
@@ -406,15 +408,15 @@ body {
 .team__heroes {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
-  gap: 12px 10px;
-  align-items: end;
-  align-content: end;
-  padding: 16px 10px 54px;
+  grid-template-columns: repeat(6, minmax(54px, 1fr));
+  gap: 10px;
+  align-items: center;
+  align-content: center;
+  padding: 12px 8px;
   border-radius: 16px;
   background: transparent;
   border: none;
-  min-height: clamp(140px, 18vh, 240px);
+  min-height: 0;
   width: 100%;
   overflow: visible;
 }
@@ -439,7 +441,7 @@ body {
 }
 
 .team__hero--empty {
-  min-height: 72px;
+  min-height: 60px;
   border: 1.5px dashed #b3b6c5;
   border-radius: 14px;
   background: rgba(243, 244, 249, 0.6);
