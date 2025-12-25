@@ -6,7 +6,7 @@
   --text: #1b1c22;
   --border: #c8c8d4;
   --panel: #ffffff;
-  --scale: 1;
+  --scale: 1.3;
   --cell-size-base: clamp(36px, 4vmin, 50px);
   --cell-gap-base: clamp(4px, 0.7vmin, 7px);
   --grid-columns: 10;
@@ -160,7 +160,7 @@ body {
 
 .game__layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 380px) minmax(240px, 300px);
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 300px) minmax(200px, 240px);
   gap: 16px;
   align-items: start;
   flex: 1;
@@ -188,10 +188,11 @@ body {
 
 .board-area__bottom {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(200px, 280px);
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
   width: 100%;
   align-items: start;
+  justify-items: start;
 }
 
 .overseer {
@@ -380,17 +381,15 @@ body {
 .team__heroes {
   position: relative;
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: var(--team-slot);
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 14px 0;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 18px 12px;
   align-items: end;
   align-content: end;
-  padding: 22px 10px 52px;
+  padding: 22px 12px 64px;
   border-radius: 16px;
   background: transparent;
   border: none;
-  min-height: 140px;
+  min-height: 200px;
   width: 100%;
   overflow: visible;
 }
@@ -427,7 +426,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: var(--team-slot);
+  width: 100%;
   font-size: 11px;
   position: relative;
   z-index: 1;
@@ -435,6 +434,13 @@ body {
 
 .team__hero span {
   display: none;
+}
+
+.team__hero--empty {
+  min-height: 72px;
+  border: 1.5px dashed #b3b6c5;
+  border-radius: 14px;
+  background: rgba(243, 244, 249, 0.6);
 }
 
 .team__hero img {
@@ -462,6 +468,16 @@ body {
   max-width: 280px;
 }
 
+.panel--costs-compact {
+  padding: 8px 10px;
+  max-width: 200px;
+}
+
+.panel--costs-compact h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+
 .panel--program {
   flex: 1;
   display: flex;
@@ -487,6 +503,11 @@ body {
   gap: 6px;
   font-size: 12px;
   word-break: break-word;
+}
+
+.costs--compact {
+  gap: 4px;
+  font-size: 11px;
 }
 
 .program {

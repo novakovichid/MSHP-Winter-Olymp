@@ -24,9 +24,9 @@
             <label for="points">Баллы группы</label>
             <input id="points" type="number" min="0" value="0" />
           </div>
-          <div class="input-group">
-            <label for="scale">Масштаб поля</label>
-            <input id="scale" type="range" min="70" max="130" value="90" />
+          <div class="panel panel--costs panel--costs-compact">
+            <h3>Стоимость команд</h3>
+            <ul class="costs costs--compact" id="costs"></ul>
           </div>
           <button class="btn" id="reset">Сбросить прогресс</button>
           <button class="btn btn--ghost" id="back">Назад к выбору</button>
@@ -41,16 +41,7 @@
           <div class="board-area__bottom">
             <div class="team" id="team">
               <h3>Команда супергероев</h3>
-              <div class="team__heroes" id="teamHeroes">
-                <div class="team__hero" data-hero="supershish">
-                  <img src="pictures/SUPERSHISH-2.png" alt="Супершиш" />
-                  <span>Супершиш</span>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel--costs">
-              <h3>Стоимость команд</h3>
-              <ul class="costs" id="costs"></ul>
+              <div class="team__heroes" id="teamHeroes"></div>
             </div>
           </div>
         </div>
@@ -62,6 +53,7 @@
             <button class="btn btn--primary" id="run">Запустить</button>
             <button class="btn" id="step">Шаг</button>
             <button class="btn" id="clear">Очистить</button>
+            <button class="btn btn--ghost" id="remove">Удалить</button>
           </div>
         </div>
 

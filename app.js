@@ -11,10 +11,10 @@ const availableCommandsEl = document.getElementById("availableCommands");
 const programEl = document.getElementById("program");
 const studentsInput = document.getElementById("students");
 const pointsInput = document.getElementById("points");
-const scaleInput = document.getElementById("scale");
 const runBtn = document.getElementById("run");
 const stepBtn = document.getElementById("step");
 const clearBtn = document.getElementById("clear");
+const removeBtn = document.getElementById("remove");
 const resetBtn = document.getElementById("reset");
 const backBtn = document.getElementById("back");
 const teamHeroes = document.getElementById("teamHeroes");
@@ -67,8 +67,7 @@ function buildInitialState(variantId) {
     boxOpened: false,
     points: 0,
     students: 10,
-    selectedVariant,
-    scale: 100
+    selectedVariant
   };
 }
 
@@ -105,8 +104,7 @@ function selectVariant(variantId) {
   state = {
     ...nextState,
     students: state?.students ?? nextState.students,
-    points: state?.points ?? nextState.points,
-    scale: state?.scale ?? nextState.scale
+    points: state?.points ?? nextState.points
   };
   saveState();
   if (isMenuPage && !isGamePage) {
@@ -135,9 +133,7 @@ function setupGame() {
   }
   studentsInput.value = state.students;
   pointsInput.value = state.points;
-  scaleInput.value = state.scale;
   renderOverseer();
-  updateScale();
   renderBoard();
   renderFinale();
   updateThresholds();
@@ -145,13 +141,6 @@ function setupGame() {
   updateCommands();
   renderProgram();
   renderTeam();
-}
-
-function updateScale(shouldRenderBoard = false) {
-  document.documentElement.style.setProperty("--scale", state.scale / 100);
-  if (shouldRenderBoard && isGamePage) {
-    renderBoard();
-  }
 }
 
 function updateThresholds() {
@@ -373,32 +362,54 @@ function renderTeam() {
   if (!teamHeroes || !heroTemplate) {
     return;
   }
-  teamHeroes.querySelectorAll(".team__hero:not([data-hero='supershish'])").forEach((hero) => hero.remove());
-  state.acquiredHeroes.forEach((heroId) => {
-    const hero = getHeroes().find((item) => item.id === heroId);
-    if (!hero) return;
+  teamHeroes.innerHTML = "";
+  getHeroes().forEach((hero) => {
     const clone = heroTemplate.content.cloneNode(true);
     const wrapper = clone.querySelector(".hero");
     wrapper.className = "team__hero";
     wrapper.dataset.hero = hero.id;
-    wrapper.querySelector("img").src = hero.img;
-    wrapper.querySelector("img").alt = hero.name;
-    wrapper.querySelector("span").textContent = hero.name;
+    const img = wrapper.querySelector("img");
+    const name = wrapper.querySelector("span");
+    name.textContent = hero.name;
+    if (state.acquiredHeroes.includes(hero.id)) {
+      img.src = hero.img;
+      img.alt = hero.name;
+    } else {
+      wrapper.classList.add("team__hero--empty");
+      img.remove();
+      name.remove();
+    }
     teamHeroes.appendChild(clone);
   });
+}
+
+function resetProgramState() {
+  programPointer = 0;
+  isRunning = false;
+  resetRobotPosition();
 }
 
 function addToProgram(commandId) {
   state.program.push(commandId);
   saveState();
+  resetProgramState();
   renderProgram();
 }
 
 function clearProgram() {
   state.program = [];
-  programPointer = 0;
-  isRunning = false;
   saveState();
+  resetProgramState();
+  renderProgram();
+}
+
+function removeLastCommand() {
+  if (state.program.length === 0) {
+    return;
+  }
+  state.program.pop();
+  saveState();
+  resetProgramState();
   renderProgram();
 }
 
@@ -549,12 +560,6 @@ function handleInputChange() {
   updateCommands();
 }
 
-function handleScale() {
-  state.scale = Number(scaleInput.value);
-  saveState();
-  updateScale(true);
-}
-
 function handleReset() {
   const confirmed = confirm("Сбросить прогресс игры?");
   if (confirmed) {
@@ -576,7 +581,6 @@ async function init() {
       ...fallback,
       students: state.students ?? fallback.students,
       points: state.points ?? fallback.points,
-      scale: state.scale ?? fallback.scale,
       selectedVariant: null
     };
     saveState();
@@ -644,11 +648,11 @@ async function init() {
   if (pointsInput) {
     pointsInput.addEventListener("input", handleInputChange);
   }
-  if (scaleInput) {
-    scaleInput.addEventListener("input", handleScale);
-  }
   if (clearBtn) {
     clearBtn.addEventListener("click", clearProgram);
+  }
+  if (removeBtn) {
+    removeBtn.addEventListener("click", removeLastCommand);
   }
   if (runBtn) {
     runBtn.addEventListener("click", runProgram);
