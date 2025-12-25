@@ -168,7 +168,10 @@ function updateBoardScale() {
   const rows = Number(variant.grid.rows) || 1;
   const totalWidth = columns * baseCell + (columns - 1) * baseGap;
   const totalHeight = rows * baseCell + (rows - 1) * baseGap;
-  const scale = Math.min(availableWidth / totalWidth, availableHeight / totalHeight);
+  const isFullscreen = document.body.classList.contains("is-fullscreen");
+  const scale = isFullscreen
+    ? availableHeight / totalHeight
+    : Math.min(availableWidth / totalWidth, availableHeight / totalHeight);
   const nextScale = Math.max(0.6, Math.min(scale, 3));
   document.body.style.setProperty("--scale", nextScale.toFixed(3));
 }
