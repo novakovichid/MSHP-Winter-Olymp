@@ -3,7 +3,7 @@
     "winter-j3": {
       "grid": {
         "columns": 12,
-        "rows": 7,
+        "rows": 6,
         "path": [
           {
             "x": 1,
@@ -196,7 +196,7 @@
     "winter-j4": {
       "grid": {
         "columns": 12,
-        "rows": 7,
+        "rows": 6,
         "path": [
           {
             "x": 1,
@@ -389,7 +389,7 @@
     "spring-j3": {
       "grid": {
         "columns": 12,
-        "rows": 7,
+        "rows": 6,
         "path": [
           {
             "x": 1,
@@ -582,7 +582,7 @@
     "spring-j4": {
       "grid": {
         "columns": 12,
-        "rows": 7,
+        "rows": 6,
         "path": [
           {
             "x": 1,
@@ -775,7 +775,7 @@
     "spring-p3": {
       "grid": {
         "columns": 12,
-        "rows": 7,
+        "rows": 6,
         "path": [
           {
             "x": 1,
