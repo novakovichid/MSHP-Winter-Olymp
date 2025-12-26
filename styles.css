@@ -300,6 +300,8 @@ body {
   position: relative;
   width: calc(var(--cell-size) * var(--grid-columns) + var(--cell-gap) * (var(--grid-columns) - 1));
   height: calc(var(--cell-size) * var(--grid-rows) + var(--cell-gap) * (var(--grid-rows) - 1));
+  transform: scaleY(0.985);
+  transform-origin: top center;
 }
 
 .grid-item {
