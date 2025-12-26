@@ -25,7 +25,8 @@ body {
   color: var(--text);
   overflow-x: hidden;
   overflow-y: auto;
-  --cell-size: calc(var(--cell-size-base) * var(--scale));
+  --cell-size-raw: calc(var(--cell-size-base) * var(--scale));
+  --cell-size: var(--cell-size-raw);
   --cell-gap: calc(var(--cell-gap-base) * var(--scale));
 }
 
@@ -285,15 +286,22 @@ body {
   border: none;
   min-height: auto;
   overflow: visible;
-  margin-top: 6px;
+  margin-top: 0;
   width: 100%;
   height: 100%;
   padding-right: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
   min-height: 0;
+  --cell-size: min(
+    var(--cell-size-raw),
+    calc(
+      (100% - (var(--grid-columns) - 1) * var(--cell-gap)) /
+        var(--grid-columns)
+    )
+  );
 }
 
 .grid {
