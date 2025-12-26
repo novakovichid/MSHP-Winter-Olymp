@@ -189,6 +189,7 @@ body {
   width: 100%;
   flex: 1;
   justify-content: center;
+  container-type: inline-size;
 }
 
 .board-area__bottom {
@@ -285,15 +286,22 @@ body {
   border: none;
   min-height: auto;
   overflow: visible;
-  margin-top: 6px;
+  margin-top: 0;
   width: 100%;
   height: 100%;
   padding-right: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
   min-height: 0;
+  --cell-size: min(
+    var(--cell-size),
+    calc(
+      (100cqw - (var(--grid-columns) - 1) * var(--cell-gap)) /
+        var(--grid-columns)
+    )
+  );
 }
 
 .grid {
