@@ -190,6 +190,7 @@ body {
   width: 100%;
   flex: 1;
   justify-content: center;
+  container-type: inline-size;
 }
 
 .board-area__bottom {
