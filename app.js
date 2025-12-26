@@ -291,6 +291,8 @@ function renderBoard() {
   grid.className = "grid";
   const columns = Number(variant.grid.columns) || 1;
   const rows = Number(variant.grid.rows) || 1;
+  board.style.setProperty("--grid-columns", columns);
+  board.style.setProperty("--grid-rows", rows);
   grid.style.setProperty("--grid-columns", columns);
   grid.style.setProperty("--grid-rows", rows);
 
