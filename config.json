@@ -166,14 +166,14 @@
         "final": 800
       },
       "commandCosts": {
-        "up": 150,
-        "left": 350,
-        "right": 400,
-        "down": 500,
-        "jump": 600,
-        "hero": 300,
-        "storage": 700,
-        "box": 900
+        "up": 115,
+        "left": 275,
+        "right": 350,
+        "down": 475,
+        "jump": 550,
+        "hero": 200,
+        "storage": 650,
+        "box": 800
       }
     },
     "spring-j3": {
@@ -342,14 +342,14 @@
         "final": 800
       },
       "commandCosts": {
-        "up": 150,
-        "left": 350,
-        "right": 400,
-        "down": 500,
-        "jump": 600,
-        "hero": 300,
-        "storage": 700,
-        "box": 900
+        "up": 115,
+        "left": 275,
+        "right": 350,
+        "down": 475,
+        "jump": 550,
+        "hero": 200,
+        "storage": 650,
+        "box": 800
       }
     },
     "spring-p3": {
