@@ -1,5 +1,93 @@
 {
   "variants": {
+    "winter-j2": {
+      "label": "Зимняя Олимпиада — J2",
+      "commands": [
+        {
+          "id": "up",
+          "label": "Вверх",
+          "type": "move"
+        },
+        {
+          "id": "down",
+          "label": "Вниз",
+          "type": "move"
+        },
+        {
+          "id": "left",
+          "label": "Влево",
+          "type": "move"
+        },
+        {
+          "id": "right",
+          "label": "Вправо",
+          "type": "move"
+        },
+        {
+          "id": "jump",
+          "label": "Прыгнуть",
+          "type": "jump"
+        },
+        {
+          "id": "decorate",
+          "label": "Украсить станцию",
+          "type": "hero"
+        },
+        {
+          "id": "boost",
+          "label": "Ускорение",
+          "type": "storage"
+        },
+        {
+          "id": "box",
+          "label": "Открыть ящик",
+          "type": "box"
+        }
+      ],
+      "stageRules": [
+        {
+          "id": "commands",
+          "label": "Открытие команд",
+          "commands": [
+            "up",
+            "down",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "id": "hero",
+          "label": "Украшение станции",
+          "commands": [
+            "decorate"
+          ]
+        },
+        {
+          "id": "final",
+          "label": "Финальный этап",
+          "commands": [
+            "jump",
+            "boost",
+            "box"
+          ]
+        }
+      ],
+      "coefficients": {
+        "commands": 115,
+        "hero": 200,
+        "final": 800
+      },
+      "commandCosts": {
+        "up": 50,
+        "left": 150,
+        "right": 300,
+        "down": 500,
+        "jump": 600,
+        "decorate": 700,
+        "boost": 800,
+        "box": 1000
+      }
+    },
     "winter-j3": {
       "label": "Зимняя Олимпиада — J3",
       "commands": [
