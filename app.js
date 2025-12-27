@@ -50,6 +50,10 @@ function getHeroes() {
   return getBoardVariant()?.heroes ?? [];
 }
 
+function getPlanets() {
+  return getBoardVariant()?.planets ?? [];
+}
+
 function getGridMetrics(variant) {
   const grid = variant?.grid;
   if (!grid) {
@@ -61,6 +65,8 @@ function getGridMetrics(variant) {
     grid.stone,
     grid.box,
     grid.lock,
+    grid.hyperspace,
+    ...getPlanets().map((planet) => planet.position),
     ...getHeroes().map((hero) => hero.position)
   ].filter(Boolean);
   if (points.length === 0) {
@@ -114,6 +120,8 @@ function buildInitialState(variantId) {
     acquiredHeroes: [],
     availableCommands: [],
     boxOpened: false,
+    hyperspaceUsed: false,
+    robotDirection: "up",
     points: 0,
     students: 10,
     selectedVariant
@@ -354,11 +362,37 @@ function renderBoard() {
     grid.appendChild(cellEl);
   });
 
+  getPlanets().forEach((planet) => {
+    const planetEl = createPiece("planet", planet.img, planet.name ?? "Планета");
+    if (planet.heroId && state.acquiredHeroes.includes(planet.heroId)) {
+      planetEl.classList.add("planet--active");
+    }
+    setGridPosition(planetEl, normalizePosition(planet.position, offsets));
+    grid.appendChild(planetEl);
+  });
+
+  const assets = variant.assets ?? {};
+
   if (variant.grid.stone) {
-    const stone = createPiece("object", "pictures/stone.jpg", "Камень");
+    const stoneAsset = assets.stone ?? { img: "pictures/stone.jpg", label: "Камень" };
+    const stone = createPiece("object", stoneAsset.img, stoneAsset.label);
     stone.classList.add("object--stone");
     setGridPosition(stone, normalizePosition(variant.grid.stone, offsets));
     grid.appendChild(stone);
+  }
+
+  if (variant.grid.hyperspace) {
+    const hyperspaceAsset = assets.hyperspace ?? {
+      img: "pictures/гиперпрыжок.jpg",
+      label: "Гиперпространство"
+    };
+    const hyperspace = createPiece("object", hyperspaceAsset.img, hyperspaceAsset.label);
+    hyperspace.classList.add("object--hyperspace");
+    if (state.hyperspaceUsed) {
+      hyperspace.classList.add("object--faded");
+    }
+    setGridPosition(hyperspace, normalizePosition(variant.grid.hyperspace, offsets));
+    grid.appendChild(hyperspace);
   }
 
   if (variant.grid.box) {
@@ -398,8 +432,16 @@ function renderBoard() {
     }
   });
 
-  robotEl = createPiece("robot", "pictures/mini-robot.png", "Робот");
+  const robotAsset = assets.robot ?? { img: "pictures/mini-robot.png", label: "Робот" };
+  robotEl = createPiece("robot", robotAsset.img, robotAsset.label);
   robotEl.classList.add("robot");
+  if (robotAsset.className) {
+    robotEl.classList.add(robotAsset.className);
+  }
+  if (robotAsset.rotates) {
+    robotEl.classList.add("robot--rotating");
+    robotEl.style.setProperty("--robot-rotation", getRotationForDirection(state.robotDirection));
+  }
   setGridPosition(robotEl, normalizePosition(state.position, offsets));
   grid.appendChild(robotEl);
 
@@ -547,6 +589,7 @@ function executeCommand(commandId) {
       return;
     }
     if (canMoveTo(next)) {
+      setRobotDirection(commandId);
       state.position = next;
       moveRobot();
     }
@@ -565,13 +608,16 @@ function executeCommand(commandId) {
       const landing = { x: current.x + dir.x * 2, y: current.y + dir.y * 2 };
       const stone = getBoardVariant()?.grid?.stone;
       if (stone && stonePos.x === stone.x && stonePos.y === stone.y && canMoveTo(landing)) {
+        setRobotDirection(
+          dir.x === 1 ? "right" : dir.x === -1 ? "left" : dir.y === 1 ? "down" : "up"
+        );
         state.position = landing;
         moveRobot();
       }
     });
   }
 
-  if (commandId === "hero") {
+  if (commandId === "hero" || commandId === "decorate") {
     const hero = getHeroes().find(
       (item) => item.position.x === current.x && item.position.y === current.y
     );
@@ -588,6 +634,15 @@ function executeCommand(commandId) {
     const lock = getBoardVariant()?.grid?.lock;
     if (lock && current.x === lock.x && current.y === lock.y) {
       alert("Хранилище открыто! Теперь можно открыть ящик.");
+    }
+  }
+
+  if (commandId === "boost") {
+    const hyperspace = getBoardVariant()?.grid?.hyperspace;
+    if (hyperspace && current.x === hyperspace.x && current.y === hyperspace.y) {
+      state.hyperspaceUsed = true;
+      saveState();
+      renderBoard();
     }
   }
 
@@ -613,6 +668,26 @@ function flashHero(heroId) {
   }
 }
 
+function setRobotDirection(direction) {
+  state.robotDirection = direction;
+  if (!robotEl) {
+    return;
+  }
+  const rotates = getBoardVariant()?.assets?.robot?.rotates;
+  if (rotates) {
+    robotEl.style.setProperty("--robot-rotation", getRotationForDirection(direction));
+  }
+}
+
+function getRotationForDirection(direction) {
+  return {
+    up: "0deg",
+    right: "90deg",
+    down: "180deg",
+    left: "-90deg"
+  }[direction] || "0deg";
+}
+
 function moveRobot() {
   if (!robotEl) {
     return;
@@ -627,6 +702,7 @@ function resetRobotPosition() {
     return;
   }
   state.position = { ...start };
+  state.robotDirection = "up";
   moveRobot();
 }
 
@@ -728,7 +804,7 @@ async function init() {
   const variantParam = urlParams.get("variant");
 
   const seasonPrograms = {
-    winter: ["J3", "J4"],
+    winter: ["J2", "J3", "J4"],
     spring: ["J3", "J4", "P3"]
   };
 
