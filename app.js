@@ -50,6 +50,52 @@ function getHeroes() {
   return getBoardVariant()?.heroes ?? [];
 }
 
+function getGridMetrics(variant) {
+  const grid = variant?.grid;
+  if (!grid) {
+    return { columns: 1, rows: 1, offsetX: 0, offsetY: 0 };
+  }
+  const points = [
+    ...(grid.path ?? []),
+    grid.start,
+    grid.stone,
+    grid.box,
+    grid.lock,
+    ...getHeroes().map((hero) => hero.position)
+  ].filter(Boolean);
+  if (points.length === 0) {
+    return {
+      columns: Number(grid.columns) || 1,
+      rows: Number(grid.rows) || 1,
+      offsetX: 0,
+      offsetY: 0
+    };
+  }
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  points.forEach((point) => {
+    minX = Math.min(minX, point.x);
+    maxX = Math.max(maxX, point.x);
+    minY = Math.min(minY, point.y);
+    maxY = Math.max(maxY, point.y);
+  });
+  return {
+    columns: maxX - minX + 1,
+    rows: maxY - minY + 1,
+    offsetX: 1 - minX,
+    offsetY: 1 - minY
+  };
+}
+
+function normalizePosition(position, offsets) {
+  return {
+    x: position.x + offsets.x,
+    y: position.y + offsets.y
+  };
+}
+
 function getDefaultVariantId() {
   const ids = Object.keys(config?.variants ?? {});
   return ids.length > 0 ? ids[0] : null;
@@ -164,8 +210,7 @@ function updateBoardScale() {
   const rootStyles = getComputedStyle(document.documentElement);
   const baseCell = parseFloat(rootStyles.getPropertyValue("--cell-size-base")) || 36;
   const baseGap = parseFloat(rootStyles.getPropertyValue("--cell-gap-base")) || 4;
-  const columns = Number(variant.grid.columns) || 1;
-  const rows = Number(variant.grid.rows) || 1;
+  const { columns, rows } = getGridMetrics(variant);
   const totalWidth = columns * baseCell + (columns - 1) * baseGap;
   const totalHeight = rows * baseCell + (rows - 1) * baseGap;
   const isFullscreen = document.body.classList.contains("is-fullscreen");
@@ -289,8 +334,8 @@ function renderBoard() {
   board.innerHTML = "";
   const grid = document.createElement("div");
   grid.className = "grid";
-  const columns = Number(variant.grid.columns) || 1;
-  const rows = Number(variant.grid.rows) || 1;
+  const { columns, rows, offsetX, offsetY } = getGridMetrics(variant);
+  const offsets = { x: offsetX, y: offsetY };
   board.style.setProperty("--grid-columns", columns);
   board.style.setProperty("--grid-rows", rows);
   grid.style.setProperty("--grid-columns", columns);
@@ -304,28 +349,28 @@ function renderBoard() {
   uniquePath.forEach((cell) => {
     const cellEl = document.createElement("div");
     cellEl.className = "cell grid-item";
-    setGridPosition(cellEl, cell);
+    setGridPosition(cellEl, normalizePosition(cell, offsets));
     grid.appendChild(cellEl);
   });
 
   if (variant.grid.stone) {
     const stone = createPiece("object", "pictures/stone.jpg", "Камень");
     stone.classList.add("object--stone");
-    setGridPosition(stone, variant.grid.stone);
+    setGridPosition(stone, normalizePosition(variant.grid.stone, offsets));
     grid.appendChild(stone);
   }
 
   if (variant.grid.box) {
     const box = createPiece("object", "pictures/box.png", "Ящик");
     box.classList.add("object--box");
-    setGridPosition(box, variant.grid.box);
+    setGridPosition(box, normalizePosition(variant.grid.box, offsets));
     grid.appendChild(box);
   }
 
   if (variant.grid.lock) {
     const lock = createPiece("object", "pictures/lock.jpg", "Замок");
     lock.classList.add("object--lock");
-    setGridPosition(lock, variant.grid.lock);
+    setGridPosition(lock, normalizePosition(variant.grid.lock, offsets));
     grid.appendChild(lock);
   }
 
@@ -335,20 +380,26 @@ function renderBoard() {
     if (state.acquiredHeroes.includes(hero.id)) {
       heroEl.classList.add("hero--acquired");
     }
-    setGridPosition(heroEl, hero.position);
+    setGridPosition(heroEl, normalizePosition(hero.position, offsets));
     grid.appendChild(heroEl);
 
     if (state.boxOpened && state.acquiredHeroes.includes(hero.id)) {
       const energy = document.createElement("div");
       energy.className = "energy grid-item";
-      setGridPosition(energy, { x: hero.position.x + 0.35, y: hero.position.y - 0.15 });
+      setGridPosition(
+        energy,
+        normalizePosition(
+          { x: hero.position.x + 0.35, y: hero.position.y - 0.15 },
+          offsets
+        )
+      );
       grid.appendChild(energy);
     }
   });
 
   robotEl = createPiece("robot", "pictures/mini-robot.png", "Робот");
   robotEl.classList.add("robot");
-  setGridPosition(robotEl, state.position);
+  setGridPosition(robotEl, normalizePosition(state.position, offsets));
   grid.appendChild(robotEl);
 
   board.appendChild(grid);
