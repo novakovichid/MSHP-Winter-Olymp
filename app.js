@@ -217,7 +217,8 @@ function updateBoardScale() {
   const scale = isFullscreen
     ? availableHeight / totalHeight
     : Math.min(availableWidth / totalWidth, availableHeight / totalHeight);
-  const nextScale = Math.max(0.6, Math.min(scale, 3));
+  const paddedScale = scale * 0.98;
+  const nextScale = Math.max(0.6, Math.min(paddedScale, 3));
   document.body.style.setProperty("--scale", nextScale.toFixed(3));
 }
 
