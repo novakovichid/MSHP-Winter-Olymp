@@ -303,7 +303,7 @@ body {
   --scale: 1;
   --cell-gap: calc(var(--cell-gap-base) * var(--scale));
   --cell-size: calc(
-    (100% - (var(--grid-rows) - 1) * var(--cell-gap)) / var(--grid-rows)
+    (100% - (var(--grid-columns) - 1) * var(--cell-gap)) / var(--grid-columns)
   );
 }
 
