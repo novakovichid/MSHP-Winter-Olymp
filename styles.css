@@ -187,7 +187,7 @@ body {
   width: 100%;
   flex: 1;
   height: 100%;
-  justify-content: center;
+  justify-content: stretch;
   container-type: inline-size;
 }
 
@@ -290,8 +290,8 @@ body {
   height: 100%;
   padding-right: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: stretch;
+  align-items: stretch;
   flex: 1;
   min-height: 0;
 }
@@ -302,14 +302,8 @@ body {
   height: 100%;
   --scale: 1;
   --cell-gap: calc(var(--cell-gap-base) * var(--scale));
-  --cell-size: min(
-    calc(
-      (100% - (var(--grid-columns) - 1) * var(--cell-gap)) /
-        var(--grid-columns)
-    ),
-    calc(
-      (100% - (var(--grid-rows) - 1) * var(--cell-gap)) / var(--grid-rows)
-    )
+  --cell-size: calc(
+    (100% - (var(--grid-rows) - 1) * var(--cell-gap)) / var(--grid-rows)
   );
 }
 
