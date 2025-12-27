@@ -301,6 +301,9 @@ body {
     calc(
       (100% - (var(--grid-columns) - 1) * var(--cell-gap)) /
         var(--grid-columns)
+    ),
+    calc(
+      (100% - (var(--grid-rows) - 1) * var(--cell-gap)) / var(--grid-rows)
     )
   );
 }
