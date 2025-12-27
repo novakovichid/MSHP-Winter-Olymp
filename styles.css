@@ -317,9 +317,10 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(
-    calc((var(--grid-x) - 1) * (var(--cell-size) + var(--cell-gap))),
-    calc((var(--grid-y) - 1) * (var(--cell-size) + var(--cell-gap)) + var(--grid-offset-y, 0px))
+  left: calc((var(--grid-x) - 1) * (var(--cell-size) + var(--cell-gap)));
+  top: calc(
+    (var(--grid-y) - 1) * (var(--cell-size) + var(--cell-gap)) +
+      var(--grid-offset-y, 0px)
   );
 }
 
@@ -373,7 +374,7 @@ body {
 }
 
 .robot {
-  transition: transform 0.45s ease;
+  transition: top 0.45s ease, left 0.45s ease;
   z-index: 4;
 }
 
