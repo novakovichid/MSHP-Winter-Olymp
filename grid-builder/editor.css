@@ -92,10 +92,12 @@
 
 .editor-board__field {
   flex: 1;
-  min-height: 420px;
+  min-height: 320px;
+  max-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .editor-grid {
@@ -220,6 +222,7 @@
   }
 
   .editor-board__field {
-    min-height: 360px;
+    min-height: 300px;
+    max-height: 60vh;
   }
 }
