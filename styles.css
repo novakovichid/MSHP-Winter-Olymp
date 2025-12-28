@@ -757,22 +757,7 @@ body.is-fullscreen .fullscreen-exit {
 }
 
 @media (max-width: 1100px) {
-  .game__layout {
-    grid-template-columns: 1fr;
-  }
-
-  .game__summary {
-    grid-template-columns: 1fr;
-  }
-
-  .board-area__field {
-    flex-direction: column;
-  }
-
-  .board-area__bottom {
-    grid-template-columns: 1fr;
-  }
-
+  /* Keep wide layout, rely on scaling media queries below. */
 }
 
 @media (max-width: 1280px) {
