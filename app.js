@@ -251,8 +251,23 @@ function updateThresholds() {
   }
   const commandCosts = variantConfig.commandCosts ?? {};
   const hasCosts = Object.keys(commandCosts).length > 0;
+  const useStageUnlocks = variantConfig.unlockMode === "stages";
 
-  if (hasCosts) {
+  if (useStageUnlocks && variantConfig.coefficients) {
+    const thresholds = {
+      commands: variantConfig.coefficients.commands * state.students,
+      hero: variantConfig.coefficients.hero * state.students,
+      final: variantConfig.coefficients.final * state.students
+    };
+
+    state.availableCommands = [];
+    getStageRules().forEach((stage) => {
+      if (state.points >= thresholds[stage.id]) {
+        state.availableCommands.push(...stage.commands);
+      }
+    });
+    state.availableCommands = [...new Set(state.availableCommands)];
+  } else if (hasCosts) {
     state.availableCommands = getCommandDefinitions()
       .filter((command) => {
         const cost = commandCosts[command.id];

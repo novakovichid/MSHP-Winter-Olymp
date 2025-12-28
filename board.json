@@ -2,8 +2,8 @@
   "variants": {
     "winter-j2": {
       "grid": {
-        "columns": 10,
-        "rows": 10,
+        "columns": 9,
+        "rows": 8,
         "path": [
           {
             "x": 1,
@@ -11,35 +11,7 @@
           },
           {
             "x": 1,
-            "y": 2
-          },
-          {
-            "x": 1,
-            "y": 3
-          },
-          {
-            "x": 1,
-            "y": 4
-          },
-          {
-            "x": 1,
-            "y": 5
-          },
-          {
-            "x": 1,
-            "y": 6
-          },
-          {
-            "x": 1,
-            "y": 7
-          },
-          {
-            "x": 1,
-            "y": 8
-          },
-          {
-            "x": 1,
-            "y": 9
+            "y": 1
           },
           {
             "x": 2,
@@ -52,6 +24,10 @@
           {
             "x": 4,
             "y": 1
+          },
+          {
+            "x": 1,
+            "y": 2
           },
           {
             "x": 4,
@@ -70,49 +46,73 @@
             "y": 2
           },
           {
-            "x": 7,
+            "x": 1,
             "y": 3
           },
           {
             "x": 7,
+            "y": 3
+          },
+          {
+            "x": 1,
+            "y": 4
+          },
+          {
+            "x": 2,
+            "y": 4
+          },
+          {
+            "x": 3,
             "y": 4
           },
           {
             "x": 7,
+            "y": 4
+          },
+          {
+            "x": 1,
+            "y": 5
+          },
+          {
+            "x": 3,
             "y": 5
           },
           {
             "x": 7,
-            "y": 6
+            "y": 5
           },
           {
             "x": 8,
-            "y": 6
+            "y": 5
           },
           {
             "x": 9,
+            "y": 5
+          },
+          {
+            "x": 1,
             "y": 6
           },
           {
             "x": 2,
-            "y": 4
+            "y": 6
           },
           {
             "x": 3,
-            "y": 4
+            "y": 6
           },
           {
-            "x": 2,
-            "y": 5
+            "x": 1,
+            "y": 7
           },
           {
-            "x": 3,
-            "y": 5
+            "x": 1,
+            "y": 8
           }
         ],
         "start": {
           "x": 1,
-          "y": 9
+          "y": 8
         },
         "stone": {
           "x": 3,
@@ -120,7 +120,7 @@
         },
         "box": {
           "x": 9,
-          "y": 6
+          "y": 5
         },
         "hyperspace": {
           "x": 7,
@@ -149,7 +149,7 @@
           "name": "Сатурн",
           "img": "pictures/Сатурн.png",
           "position": {
-            "x": 0,
+            "x": 1,
             "y": 0
           },
           "heroId": "vector"
@@ -169,7 +169,7 @@
           "name": "Уран",
           "img": "pictures/Уран.png",
           "position": {
-            "x": 9,
+            "x": 8,
             "y": 2
           },
           "heroId": "supermark"
@@ -180,7 +180,7 @@
           "img": "pictures/Меркурий.png",
           "position": {
             "x": 0,
-            "y": 5
+            "y": 4
           },
           "heroId": "cyberjinn"
         },
@@ -190,7 +190,7 @@
           "img": "pictures/Марс.png",
           "position": {
             "x": 0,
-            "y": 8
+            "y": 6
           },
           "heroId": "robozeka"
         },
@@ -199,8 +199,8 @@
           "name": "Земля",
           "img": "pictures/Земля.png",
           "position": {
-            "x": 2,
-            "y": 10
+            "x": 1,
+            "y": 9
           },
           "heroId": "flashcone"
         }
@@ -225,36 +225,36 @@
           }
         },
         {
-          "id": "supermark",
-          "name": "Супер-Марк",
-          "img": "pictures/supermark.png",
+          "id": "cyberjinn",
+          "name": "Киберджинн",
+          "img": "pictures/cyberjinn.png",
           "position": {
             "x": 1,
             "y": 4
           }
         },
         {
-          "id": "cyberjinn",
-          "name": "Киберджинн",
-          "img": "pictures/cyberjinn.png",
+          "id": "flashcone",
+          "name": "Флеш-шишка",
+          "img": "pictures/flashcone.png",
           "position": {
             "x": 3,
-            "y": 5
+            "y": 4
+          }
+        },
+        {
+          "id": "supermark",
+          "name": "Супер-Марк",
+          "img": "pictures/supermark.png",
+          "position": {
+            "x": 1,
+            "y": 6
           }
         },
         {
           "id": "robozeka",
           "name": "Робозека",
           "img": "pictures/robot.png",
-          "position": {
-            "x": 1,
-            "y": 7
-          }
-        },
-        {
-          "id": "flashcone",
-          "name": "Флеш-шишка",
-          "img": "pictures/flashcone.png",
           "position": {
             "x": 7,
             "y": 5
