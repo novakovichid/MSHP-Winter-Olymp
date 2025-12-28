@@ -102,6 +102,15 @@ function normalizePosition(position, offsets) {
   };
 }
 
+function getBoardOffsets() {
+  const variant = getBoardVariant();
+  if (!variant) {
+    return { x: 0, y: 0 };
+  }
+  const { offsetX, offsetY } = getGridMetrics(variant);
+  return { x: offsetX, y: offsetY };
+}
+
 function getDefaultVariantId() {
   const ids = Object.keys(config?.variants ?? {});
   return ids.length > 0 ? ids[0] : null;
@@ -720,7 +729,11 @@ function moveRobot() {
   if (!robotEl) {
     return;
   }
-  setGridPosition(robotEl, state.position);
+  const position =
+    state.selectedVariant === "winter-j2"
+      ? normalizePosition(state.position, getBoardOffsets())
+      : state.position;
+  setGridPosition(robotEl, position);
   saveState();
 }
 
