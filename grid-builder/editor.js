@@ -7,6 +7,12 @@ const DEFAULT_ASSETS = {
   hyperspace: { img: "pictures/гиперпрыжок.jpg", label: "Гиперпространство" }
 };
 
+const SUPERSHISH = {
+  id: "supershish",
+  name: "Супершиш",
+  img: "pictures/SUPERSHISH-2.png"
+};
+
 const TOOL_DEFINITIONS = [
   { id: "path", label: "Путь" },
   { id: "start", label: "Старт" },
@@ -33,6 +39,7 @@ const state = {
   planets: [],
   assets: {},
   overseer: null,
+  supershishPlacement: "pedestal",
   selectedTool: "path",
   selectedGridObject: null,
   selectedHero: null,
@@ -49,10 +56,12 @@ const dom = {
   toolButtons: document.getElementById("toolButtons"),
   toolSettings: document.getElementById("toolSettings"),
   assetControls: document.getElementById("assetControls"),
+  supershishPlacement: document.getElementById("supershishPlacement"),
   overseerSelect: document.getElementById("overseerSelect"),
   board: document.getElementById("builderBoard"),
   output: document.getElementById("output"),
   copyJson: document.getElementById("copyJson"),
+  pasteJson: document.getElementById("pasteJson"),
   status: document.getElementById("status")
 };
 
@@ -160,6 +169,38 @@ function buildResourceCatalog(boardData) {
   };
 }
 
+function getAvailableHeroes() {
+  const heroes = [...resourceCatalog.heroes];
+  if (state.supershishPlacement === "field") {
+    const alreadyIncluded = heroes.some((hero) => (hero.id ?? hero.name ?? hero.img) === SUPERSHISH.id);
+    if (!alreadyIncluded) {
+      heroes.push(SUPERSHISH);
+    }
+  }
+  return heroes;
+}
+
+function syncSupershishPlacementFromHeroes() {
+  const hasSupershish = state.heroes.some((hero) => hero.id === SUPERSHISH.id);
+  state.supershishPlacement = hasSupershish ? "field" : "pedestal";
+  if (dom.supershishPlacement) {
+    dom.supershishPlacement.value = state.supershishPlacement;
+  }
+}
+
+function setSupershishPlacement(placement) {
+  state.supershishPlacement = placement;
+  if (placement !== "field") {
+    state.heroes = state.heroes.filter((hero) => hero.id !== SUPERSHISH.id);
+    if (state.selectedHero === SUPERSHISH.id) {
+      state.selectedHero = null;
+    }
+  }
+  renderToolSettings();
+  renderBoard();
+  updateOutput();
+}
+
 function setActiveTool(toolId) {
   state.selectedTool = toolId;
   Array.from(dom.toolButtons.querySelectorAll("button")).forEach((btn) => {
@@ -216,7 +257,8 @@ function renderToolSettings() {
   }
 
   if (state.selectedTool === "hero") {
-    if (resourceCatalog.heroes.length === 0) {
+    const heroes = getAvailableHeroes();
+    if (heroes.length === 0) {
       const note = document.createElement("small");
       note.textContent = "В данных нет героев.";
       dom.toolSettings.appendChild(note);
@@ -229,14 +271,15 @@ function renderToolSettings() {
     const select = document.createElement("select");
     select.className = "editor-select";
 
-    resourceCatalog.heroes.forEach((hero) => {
+    heroes.forEach((hero) => {
       const option = document.createElement("option");
       option.value = hero.id ?? hero.name ?? hero.img;
       option.textContent = hero.name ?? hero.id ?? "Герой";
       select.appendChild(option);
     });
 
-    if (!state.selectedHero) {
+    const heroValues = heroes.map((hero) => hero.id ?? hero.name ?? hero.img);
+    if (!state.selectedHero || !heroValues.includes(state.selectedHero)) {
       state.selectedHero = select.value;
     }
     select.value = state.selectedHero ?? select.value;
@@ -412,7 +455,7 @@ function placeHero(position) {
   if (!state.selectedHero) {
     return;
   }
-  const hero = findResourceByKey(resourceCatalog.heroes, state.selectedHero);
+  const hero = findResourceByKey(getAvailableHeroes(), state.selectedHero);
   if (!hero) {
     return;
   }
@@ -707,6 +750,56 @@ function pruneOutOfBounds() {
   state.planets = state.planets.filter((planet) => planet.position.x <= maxX && planet.position.y <= maxY);
 }
 
+function applySnippet(snippet) {
+  if (!snippet || typeof snippet !== "object" || !snippet.grid) {
+    throw new Error("Некорректный JSON: ожидается объект с полем grid.");
+  }
+
+  const grid = snippet.grid ?? {};
+  state.columns = Number(grid.columns) || state.columns;
+  state.rows = Number(grid.rows) || state.rows;
+  dom.columnsInput.value = state.columns;
+  dom.rowsInput.value = state.rows;
+
+  state.path = new Set((grid.path ?? []).map(positionKey));
+  state.start = grid.start ? { ...grid.start } : null;
+  state.gridObjects = {};
+
+  Object.entries(grid).forEach(([key, value]) => {
+    if (["columns", "rows", "path", "start"].includes(key)) {
+      return;
+    }
+    if (value && typeof value === "object") {
+      state.gridObjects[key] = { ...value };
+    }
+  });
+
+  state.heroes = (snippet.heroes ?? []).map((hero) => ({
+    id: hero.id,
+    name: hero.name,
+    img: hero.img,
+    position: { ...hero.position }
+  }));
+
+  state.planets = (snippet.planets ?? []).map((planet) => ({
+    id: planet.id,
+    name: planet.name,
+    img: planet.img,
+    heroId: planet.heroId,
+    position: { ...planet.position }
+  }));
+
+  state.assets = { ...(snippet.assets ?? {}) };
+  state.overseer = snippet.overseer ? { ...snippet.overseer } : null;
+  syncSupershishPlacementFromHeroes();
+  pruneOutOfBounds();
+  renderAssetControls();
+  renderOverseerOptions();
+  renderToolSettings();
+  renderBoard();
+  updateOutput();
+}
+
 function applyVariant(variantId) {
   const variant = boardConfig.variants?.[variantId];
   if (!variant?.grid) {
@@ -747,9 +840,11 @@ function applyVariant(variantId) {
 
   state.assets = { ...(variant.assets ?? {}) };
   state.overseer = variant.overseer ? { ...variant.overseer } : null;
+  syncSupershishPlacementFromHeroes();
 
   renderAssetControls();
   renderOverseerOptions();
+  renderToolSettings();
   renderBoard();
   updateOutput();
 }
@@ -762,8 +857,13 @@ function resetBoard() {
   state.planets = [];
   state.assets = {};
   state.overseer = null;
+  state.supershishPlacement = "pedestal";
+  if (dom.supershishPlacement) {
+    dom.supershishPlacement.value = state.supershishPlacement;
+  }
   renderAssetControls();
   renderOverseerOptions();
+  renderToolSettings();
   renderBoard();
   updateOutput();
 }
@@ -828,12 +928,31 @@ function bindEvents() {
     updateOutput();
   });
 
+  dom.supershishPlacement.addEventListener("change", () => {
+    setSupershishPlacement(dom.supershishPlacement.value);
+  });
+
   dom.copyJson.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(dom.output.value);
       updateStatus("JSON скопирован в буфер обмена.");
     } catch (error) {
       updateStatus("Не удалось скопировать JSON. Выделите и скопируйте вручную.");
+    }
+  });
+
+  dom.pasteJson.addEventListener("click", async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (!text) {
+        updateStatus("Буфер обмена пуст или недоступен.");
+        return;
+      }
+      const parsed = JSON.parse(text);
+      applySnippet(parsed);
+      updateStatus("JSON из буфера применен.");
+    } catch (error) {
+      updateStatus("Не удалось вставить JSON. Проверьте данные в буфере.");
     }
   });
 }
@@ -855,6 +974,9 @@ async function init() {
   renderToolSettings();
   renderAssetControls();
   renderOverseerOptions();
+  if (dom.supershishPlacement) {
+    dom.supershishPlacement.value = state.supershishPlacement;
+  }
   bindEvents();
   renderBoard();
   updateOutput();

@@ -57,6 +57,17 @@
         </div>
 
         <div class="editor-section">
+          <h3>Супершиш</h3>
+          <div class="input-group">
+            <label for="supershishPlacement">Где размещать героя</label>
+            <select id="supershishPlacement" class="editor-select">
+              <option value="pedestal">Пьедестал героев</option>
+              <option value="field">На поле</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="editor-section">
           <h3>Ресурсы и механики</h3>
           <div id="assetControls" class="editor-resource-list"></div>
         </div>
@@ -88,6 +99,7 @@
           <textarea id="output" readonly></textarea>
           <div class="editor-inline-actions">
             <button id="copyJson" class="btn btn--primary">Скопировать JSON</button>
+            <button id="pasteJson" class="btn btn--ghost">Вставить JSON из буфера</button>
           </div>
           <div id="status" class="editor-status"></div>
         </div>
