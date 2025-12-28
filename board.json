@@ -26,6 +26,14 @@
             "y": 2
           },
           {
+            "x": 2,
+            "y": 2
+          },
+          {
+            "x": 3,
+            "y": 2
+          },
+          {
             "x": 4,
             "y": 2
           },
@@ -42,10 +50,6 @@
             "y": 2
           },
           {
-            "x": 1,
-            "y": 3
-          },
-          {
             "x": 7,
             "y": 3
           },
@@ -62,6 +66,10 @@
             "y": 4
           },
           {
+            "x": 4,
+            "y": 4
+          },
+          {
             "x": 7,
             "y": 4
           },
@@ -70,7 +78,7 @@
             "y": 5
           },
           {
-            "x": 3,
+            "x": 4,
             "y": 5
           },
           {
@@ -78,19 +86,23 @@
             "y": 5
           },
           {
-            "x": 8,
-            "y": 5
-          },
-          {
             "x": 1,
             "y": 6
           },
           {
-            "x": 2,
+            "x": 4,
             "y": 6
           },
           {
-            "x": 3,
+            "x": 5,
+            "y": 6
+          },
+          {
+            "x": 6,
+            "y": 6
+          },
+          {
+            "x": 7,
             "y": 6
           },
           {
@@ -111,12 +123,12 @@
           "y": 1
         },
         "box": {
-          "x": 8,
-          "y": 5
+          "x": 9,
+          "y": 6
         },
         "hyperspace": {
           "x": 7,
-          "y": 4
+          "y": 5
         }
       },
       "assets": {
@@ -157,14 +169,23 @@
           "heroId": "codeman"
         },
         {
+          "id": "venus",
+          "name": "Венера",
+          "img": "pictures/Венера.png",
+          "position": {
+            "x": 3,
+            "y": 4
+          },
+          "heroId": "supermark"
+        },
+        {
           "id": "uranus",
           "name": "Уран",
           "img": "pictures/Уран.png",
           "position": {
             "x": 8,
             "y": 2
-          },
-          "heroId": "supermark"
+          }
         },
         {
           "id": "mercury",
@@ -187,14 +208,23 @@
           "heroId": "robozeka"
         },
         {
+          "id": "pluto",
+          "name": "Плутон",
+          "img": "pictures/Плутон.png",
+          "position": {
+            "x": 6,
+            "y": 7
+          },
+          "heroId": "supershish"
+        },
+        {
           "id": "earth",
           "name": "Земля",
           "img": "pictures/Земля.png",
           "position": {
             "x": 1,
             "y": 9
-          },
-          "heroId": "supershish"
+          }
         }
       ],
       "heroes": [
@@ -213,7 +243,7 @@
           "img": "pictures/codeman.png",
           "position": {
             "x": 7,
-            "y": 2
+            "y": 1
           }
         },
         {
@@ -239,8 +269,8 @@
           "name": "Супер-Марк",
           "img": "pictures/supermark.png",
           "position": {
-            "x": 1,
-            "y": 6
+            "x": 7,
+            "y": 3
           }
         },
         {
@@ -248,8 +278,8 @@
           "name": "Робозека",
           "img": "pictures/robot.png",
           "position": {
-            "x": 1,
-            "y": 4
+            "x": 7,
+            "y": 6
           }
         }
       ],
