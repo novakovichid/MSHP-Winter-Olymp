@@ -2,6 +2,7 @@
   "variants": {
     "winter-j2": {
       "label": "Зимняя Олимпиада — J2",
+      "unlockMode": "stages",
       "commands": [
         {
           "id": "up",
