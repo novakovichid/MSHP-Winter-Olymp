@@ -94,10 +94,6 @@
             "y": 6
           },
           {
-            "x": 2,
-            "y": 6
-          },
-          {
             "x": 3,
             "y": 6
           },
@@ -202,7 +198,7 @@
             "x": 1,
             "y": 9
           },
-          "heroId": "flashcone"
+          "heroId": "supershish"
         }
       ],
       "heroes": [

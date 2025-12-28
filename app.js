@@ -114,10 +114,17 @@ function isValidVariant(variantId) {
 function buildInitialState(variantId) {
   const selectedVariant = variantId ?? getDefaultVariantId();
   const boardVariant = getBoardVariant(selectedVariant);
+  const initialHeroes = [];
+  if (selectedVariant === "winter-j2") {
+    const earthPlanet = boardVariant?.planets?.find((planet) => planet.id === "earth");
+    if (earthPlanet?.heroId) {
+      initialHeroes.push(earthPlanet.heroId);
+    }
+  }
   return {
     program: [],
     position: boardVariant?.grid?.start ?? { x: 0, y: 0 },
-    acquiredHeroes: [],
+    acquiredHeroes: initialHeroes,
     availableCommands: [],
     boxOpened: false,
     hyperspaceUsed: false,
@@ -142,12 +149,18 @@ function loadState() {
     const parsed = JSON.parse(saved);
     const legacyVariant = parsed.selectedVariant ?? (parsed.selectedProgram ? `winter-${parsed.selectedProgram.toLowerCase()}` : null);
     const baseState = buildInitialState(legacyVariant);
-    return {
+    const nextState = {
       ...baseState,
       ...parsed,
       selectedVariant: legacyVariant ?? baseState.selectedVariant,
       position: parsed.position ?? baseState.position
     };
+    if (nextState.selectedVariant === "winter-j2" && baseState.acquiredHeroes.length > 0) {
+      const heroSet = new Set(nextState.acquiredHeroes);
+      baseState.acquiredHeroes.forEach((heroId) => heroSet.add(heroId));
+      nextState.acquiredHeroes = Array.from(heroSet);
+    }
+    return nextState;
   }
   return buildInitialState(null);
 }
