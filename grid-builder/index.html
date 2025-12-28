@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Редактор сетки Олимпиады</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="editor.css" />
+  </head>
+  <body class="page editor-page">
+    <header class="editor-header">
+      <h1>Редактор сетки Олимпиады</h1>
+      <p>
+        Соберите игровую сетку и объекты визуально, а затем скопируйте готовый JSON-фрагмент
+        для вставки в <code>board.json</code>. Редактор использует доступные ресурсы из основного проекта
+        и автоматически подхватывает новые элементы при обновлении данных.
+      </p>
+    </header>
+
+    <main class="editor-layout">
+      <section class="panel editor-panel">
+        <h2>Настройки поля</h2>
+        <div class="editor-section">
+          <div class="input-group">
+            <label for="variantSelect">Загрузить шаблон варианта</label>
+            <select id="variantSelect" class="editor-select"></select>
+          </div>
+          <div class="editor-inline-actions">
+            <button id="loadVariant" class="btn">Загрузить</button>
+            <button id="resetBoard" class="btn btn--ghost">Очистить поле</button>
+          </div>
+        </div>
+
+        <div class="editor-section">
+          <h3>Размеры сетки</h3>
+          <div class="editor-grid-size">
+            <div class="input-group">
+              <label for="columnsInput">Колонки</label>
+              <input id="columnsInput" type="number" min="1" max="30" value="10" />
+            </div>
+            <div class="input-group">
+              <label for="rowsInput">Строки</label>
+              <input id="rowsInput" type="number" min="1" max="30" value="8" />
+            </div>
+          </div>
+          <button id="applyGrid" class="btn">Применить размеры</button>
+        </div>
+
+        <div class="editor-section">
+          <h3>Инструмент размещения</h3>
+          <div id="toolButtons" class="editor-tools"></div>
+          <div id="toolSettings" class="editor-controls"></div>
+          <div class="editor-note">
+            Нажмите на клетку, чтобы разместить выбранный элемент. В режиме «Ластик» удаляются
+            все объекты с выбранной позиции.
+          </div>
+        </div>
+
+        <div class="editor-section">
+          <h3>Ресурсы и механики</h3>
+          <div id="assetControls" class="editor-resource-list"></div>
+        </div>
+
+        <div class="editor-section">
+          <h3>Надзиратель</h3>
+          <div class="input-group">
+            <label for="overseerSelect">Вариант надзирателя</label>
+            <select id="overseerSelect" class="editor-select"></select>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel editor-board">
+        <h2>Поле</h2>
+        <div class="editor-board__field board-area__field">
+          <div id="builderBoard" class="editor-grid" aria-label="Редактируемая сетка"></div>
+        </div>
+        <div class="editor-board__legend">
+          <span>🟦 путь</span>
+          <span>🟩 старт</span>
+          <span>🟨 объект</span>
+        </div>
+      </section>
+
+      <section class="panel editor-panel">
+        <h2>JSON-фрагмент</h2>
+        <div class="editor-output">
+          <textarea id="output" readonly></textarea>
+          <div class="editor-inline-actions">
+            <button id="copyJson" class="btn btn--primary">Скопировать JSON</button>
+          </div>
+          <div id="status" class="editor-status"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="editor.js"></script>
+  </body>
+</html>
