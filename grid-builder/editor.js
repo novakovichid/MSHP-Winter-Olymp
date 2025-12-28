@@ -878,9 +878,22 @@ function updateBoardScale() {
   if (!availableWidth || !availableHeight) {
     return;
   }
-  const rootStyles = getComputedStyle(document.documentElement);
-  const baseCell = parseFloat(rootStyles.getPropertyValue("--cell-size-base")) || 36;
-  const baseGap = parseFloat(rootStyles.getPropertyValue("--cell-gap-base")) || 4;
+  const resolveCssSize = (variableName, fallback) => {
+    const probe = document.createElement("div");
+    probe.style.width = `var(${variableName})`;
+    probe.style.position = "absolute";
+    probe.style.visibility = "hidden";
+    probe.style.pointerEvents = "none";
+    probe.style.padding = "0";
+    probe.style.border = "0";
+    document.body.appendChild(probe);
+    const resolved = parseFloat(getComputedStyle(probe).width);
+    probe.remove();
+    return Number.isFinite(resolved) && resolved > 0 ? resolved : fallback;
+  };
+
+  const baseCell = resolveCssSize("--cell-size-base", 36);
+  const baseGap = resolveCssSize("--cell-gap-base", 4);
   const totalWidth = state.columns * baseCell + (state.columns - 1) * baseGap;
   const totalHeight = state.rows * baseCell + (state.rows - 1) * baseGap;
   const scale = Math.min(availableWidth / totalWidth, availableHeight / totalHeight);
