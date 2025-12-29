@@ -13,6 +13,8 @@ const SUPERSHISH = {
   img: "pictures/SUPERSHISH-2.png"
 };
 
+const DEFAULT_FINAL_MESSAGE = "Сила команды раскрыта — герои готовы к финальной битве.";
+
 const TOOL_DEFINITIONS = [
   { id: "path", label: "Путь" },
   { id: "start", label: "Старт" },
@@ -40,6 +42,7 @@ const state = {
   assets: {},
   overseer: null,
   supershishPlacement: "pedestal",
+  finalMessage: DEFAULT_FINAL_MESSAGE,
   selectedTool: "path",
   selectedGridObject: null,
   selectedHero: null,
@@ -58,6 +61,7 @@ const dom = {
   assetControls: document.getElementById("assetControls"),
   supershishPlacement: document.getElementById("supershishPlacement"),
   overseerSelect: document.getElementById("overseerSelect"),
+  finalMessage: document.getElementById("finalMessage"),
   board: document.getElementById("builderBoard"),
   output: document.getElementById("output"),
   copyJson: document.getElementById("copyJson"),
@@ -180,9 +184,12 @@ function getAvailableHeroes() {
   return heroes;
 }
 
-function syncSupershishPlacementFromHeroes() {
+function syncSupershishPlacementFromHeroes(placement) {
   const hasSupershish = state.heroes.some((hero) => hero.id === SUPERSHISH.id);
-  state.supershishPlacement = hasSupershish ? "field" : "pedestal";
+  state.supershishPlacement = placement ?? (hasSupershish ? "field" : "pedestal");
+  if (state.supershishPlacement !== "field") {
+    state.heroes = state.heroes.filter((hero) => hero.id !== SUPERSHISH.id);
+  }
   if (dom.supershishPlacement) {
     dom.supershishPlacement.value = state.supershishPlacement;
   }
@@ -716,6 +723,9 @@ function buildSnippet() {
     snippet.overseer = { ...state.overseer };
   }
 
+  snippet.supershishPlacement = state.supershishPlacement;
+  snippet.finalMessage = state.finalMessage;
+
   return snippet;
 }
 
@@ -791,7 +801,11 @@ function applySnippet(snippet) {
 
   state.assets = { ...(snippet.assets ?? {}) };
   state.overseer = snippet.overseer ? { ...snippet.overseer } : null;
-  syncSupershishPlacementFromHeroes();
+  state.finalMessage = snippet.finalMessage ?? state.finalMessage;
+  syncSupershishPlacementFromHeroes(snippet.supershishPlacement);
+  if (dom.finalMessage) {
+    dom.finalMessage.value = state.finalMessage;
+  }
   pruneOutOfBounds();
   renderAssetControls();
   renderOverseerOptions();
@@ -840,7 +854,11 @@ function applyVariant(variantId) {
 
   state.assets = { ...(variant.assets ?? {}) };
   state.overseer = variant.overseer ? { ...variant.overseer } : null;
-  syncSupershishPlacementFromHeroes();
+  state.finalMessage = variant.finalMessage ?? state.finalMessage;
+  syncSupershishPlacementFromHeroes(variant.supershishPlacement);
+  if (dom.finalMessage) {
+    dom.finalMessage.value = state.finalMessage;
+  }
 
   renderAssetControls();
   renderOverseerOptions();
@@ -858,8 +876,12 @@ function resetBoard() {
   state.assets = {};
   state.overseer = null;
   state.supershishPlacement = "pedestal";
+  state.finalMessage = DEFAULT_FINAL_MESSAGE;
   if (dom.supershishPlacement) {
     dom.supershishPlacement.value = state.supershishPlacement;
+  }
+  if (dom.finalMessage) {
+    dom.finalMessage.value = state.finalMessage;
   }
   renderAssetControls();
   renderOverseerOptions();
@@ -945,6 +967,13 @@ function bindEvents() {
     setSupershishPlacement(dom.supershishPlacement.value);
   });
 
+  if (dom.finalMessage) {
+    dom.finalMessage.addEventListener("input", () => {
+      state.finalMessage = dom.finalMessage.value;
+      updateOutput();
+    });
+  }
+
   dom.copyJson.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(dom.output.value);
@@ -989,6 +1018,9 @@ async function init() {
   renderOverseerOptions();
   if (dom.supershishPlacement) {
     dom.supershishPlacement.value = state.supershishPlacement;
+  }
+  if (dom.finalMessage) {
+    dom.finalMessage.value = state.finalMessage;
   }
   bindEvents();
   renderBoard();

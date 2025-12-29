@@ -29,5 +29,7 @@ http://localhost:8000/grid-builder/
 - `planets`
 - `assets` (переопределения ассетов)
 - `overseer`
+- `supershishPlacement`
+- `finalMessage`
 
 Можно копировать весь фрагмент как основу для нового варианта.

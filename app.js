@@ -1,6 +1,7 @@
 const STORAGE_KEY = "mshp-olymp-state";
 const CONFIG_URL = "config.json";
 const BOARD_URL = "board.json";
+const DEFAULT_FINAL_MESSAGE = "Сила команды раскрыта — герои готовы к финальной битве.";
 
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
@@ -124,6 +125,10 @@ function buildInitialState(variantId) {
   const selectedVariant = variantId ?? getDefaultVariantId();
   const boardVariant = getBoardVariant(selectedVariant);
   const initialHeroes = [];
+  const supershishPlacement = boardVariant?.supershishPlacement ?? "pedestal";
+  if (supershishPlacement === "pedestal") {
+    initialHeroes.push("supershish");
+  }
   if (selectedVariant === "winter-j2") {
     const earthPlanet = boardVariant?.planets?.find((planet) => planet.id === "earth");
     if (earthPlanet?.heroId) {
@@ -164,7 +169,7 @@ function loadState() {
       selectedVariant: legacyVariant ?? baseState.selectedVariant,
       position: parsed.position ?? baseState.position
     };
-    if (nextState.selectedVariant === "winter-j2" && baseState.acquiredHeroes.length > 0) {
+    if (baseState.acquiredHeroes.length > 0) {
       const heroSet = new Set(nextState.acquiredHeroes);
       baseState.acquiredHeroes.forEach((heroId) => heroSet.add(heroId));
       nextState.acquiredHeroes = Array.from(heroSet);
@@ -213,6 +218,7 @@ function setupGame() {
   studentsInput.value = state.students;
   pointsInput.value = state.points;
   renderOverseer();
+  resetProgramState();
   renderBoard();
   renderFinale();
   updateThresholds();
@@ -490,6 +496,7 @@ function renderFinale() {
   if (!field) {
     return;
   }
+  const variantMessage = getBoardVariant()?.finalMessage ?? DEFAULT_FINAL_MESSAGE;
   if (!finaleEl) {
     finaleEl = document.createElement("div");
     finaleEl.className = "finale";
@@ -497,10 +504,14 @@ function renderFinale() {
       <div class="finale__burst"></div>
       <div class="finale__card">
         <h4>Ящик открыт!</h4>
-        <p>Сила команды раскрыта — герои готовы к финальной битве.</p>
+        <p class="finale__message"></p>
       </div>
     `;
     field.appendChild(finaleEl);
+  }
+  const messageEl = finaleEl.querySelector(".finale__message");
+  if (messageEl) {
+    messageEl.textContent = variantMessage;
   }
   finaleEl.classList.toggle("finale--active", Boolean(state.boxOpened));
 }

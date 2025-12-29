@@ -275,7 +275,9 @@
           "img": "pictures/Астероид.jpg",
           "label": "Астероид"
         }
-      }
+      },
+      "supershishPlacement": "field",
+      "finalMessage": "Вы большие молодцы!"
     },
     "winter-j3": {
       "grid": {
@@ -468,7 +470,9 @@
         "name": "Плохишиш",
         "img": "pictures/BADSHISH-3.png",
         "caption": "Вам не победить меня!"
-      }
+      },
+      "supershishPlacement": "pedestal",
+      "finalMessage": "Сила команды раскрыта — герои готовы к финальной битве."
     },
     "winter-j4": {
       "grid": {
@@ -661,7 +665,9 @@
         "name": "Плохишиш",
         "img": "pictures/BADSHISH-3.png",
         "caption": "Вам не победить меня!"
-      }
+      },
+      "supershishPlacement": "pedestal",
+      "finalMessage": "Сила команды раскрыта — герои готовы к финальной битве."
     },
     "spring-j3": {
       "grid": {
@@ -854,7 +860,9 @@
         "name": "Плохишиш",
         "img": "pictures/BADSHISH-3.png",
         "caption": "Вам не победить меня!"
-      }
+      },
+      "supershishPlacement": "pedestal",
+      "finalMessage": "Сила команды раскрыта — герои готовы к финальной битве."
     },
     "spring-j4": {
       "grid": {
@@ -1047,7 +1055,9 @@
         "name": "Плохишиш",
         "img": "pictures/BADSHISH-3.png",
         "caption": "Вам не победить меня!"
-      }
+      },
+      "supershishPlacement": "pedestal",
+      "finalMessage": "Сила команды раскрыта — герои готовы к финальной битве."
     },
     "spring-p3": {
       "grid": {
@@ -1240,7 +1250,9 @@
         "name": "Плохишиш",
         "img": "pictures/BADSHISH-3.png",
         "caption": "Вам не победить меня!"
-      }
+      },
+      "supershishPlacement": "pedestal",
+      "finalMessage": "Сила команды раскрыта — герои готовы к финальной битве."
     }
   }
 }
