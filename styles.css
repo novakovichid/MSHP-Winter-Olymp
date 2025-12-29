@@ -189,6 +189,7 @@ body {
   height: 100%;
   justify-content: stretch;
   container-type: inline-size;
+  overflow: auto;
 }
 
 .board-area__bottom {
