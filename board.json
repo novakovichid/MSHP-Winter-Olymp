@@ -2,29 +2,9 @@
   "variants": {
     "winter-j2": {
       "grid": {
-        "columns": 9,
-        "rows": 8,
+        "columns": 10,
+        "rows": 10,
         "path": [
-          {
-            "x": 1,
-            "y": 1
-          },
-          {
-            "x": 2,
-            "y": 1
-          },
-          {
-            "x": 3,
-            "y": 1
-          },
-          {
-            "x": 4,
-            "y": 1
-          },
-          {
-            "x": 1,
-            "y": 2
-          },
           {
             "x": 2,
             "y": 2
@@ -42,39 +22,39 @@
             "y": 2
           },
           {
-            "x": 6,
-            "y": 2
+            "x": 2,
+            "y": 3
           },
           {
-            "x": 7,
-            "y": 2
+            "x": 5,
+            "y": 3
+          },
+          {
+            "x": 6,
+            "y": 3
           },
           {
             "x": 7,
             "y": 3
           },
           {
-            "x": 1,
-            "y": 4
+            "x": 8,
+            "y": 3
           },
           {
             "x": 2,
             "y": 4
           },
           {
+            "x": 8,
+            "y": 4
+          },
+          {
+            "x": 2,
+            "y": 5
+          },
+          {
             "x": 3,
-            "y": 4
-          },
-          {
-            "x": 4,
-            "y": 4
-          },
-          {
-            "x": 7,
-            "y": 4
-          },
-          {
-            "x": 1,
             "y": 5
           },
           {
@@ -82,55 +62,208 @@
             "y": 5
           },
           {
-            "x": 7,
+            "x": 8,
             "y": 5
-          },
-          {
-            "x": 1,
-            "y": 6
           },
           {
             "x": 4,
             "y": 6
           },
           {
-            "x": 5,
+            "x": 8,
             "y": 6
           },
           {
-            "x": 6,
+            "x": 9,
             "y": 6
           },
           {
-            "x": 7,
+            "x": 10,
             "y": 6
           },
           {
-            "x": 1,
+            "x": 2,
             "y": 7
           },
           {
-            "x": 1,
+            "x": 3,
+            "y": 7
+          },
+          {
+            "x": 4,
+            "y": 7
+          },
+          {
+            "x": 2,
             "y": 8
+          },
+          {
+            "x": 2,
+            "y": 9
           }
         ],
         "start": {
-          "x": 1,
-          "y": 8
+          "x": 2,
+          "y": 9
         },
         "stone": {
-          "x": 3,
-          "y": 1
-        },
-        "box": {
-          "x": 9,
-          "y": 6
+          "x": 4,
+          "y": 2
         },
         "hyperspace": {
-          "x": 7,
+          "x": 8,
           "y": 5
+        },
+        "box": {
+          "x": 10,
+          "y": 6
         }
       },
+      "heroes": [
+        {
+          "id": "supermark",
+          "name": "Супер-Марк",
+          "img": "pictures/supermark.png",
+          "position": {
+            "x": 2,
+            "y": 7
+          }
+        },
+        {
+          "id": "flashcone",
+          "name": "Флеш-шишка",
+          "img": "pictures/flashcone.png",
+          "position": {
+            "x": 4,
+            "y": 5
+          }
+        },
+        {
+          "id": "cyberjinn",
+          "name": "Киберджинн",
+          "img": "pictures/cyberjinn.png",
+          "position": {
+            "x": 2,
+            "y": 5
+          }
+        },
+        {
+          "id": "vector",
+          "name": "Вектор",
+          "img": "pictures/vector.png",
+          "position": {
+            "x": 2,
+            "y": 2
+          }
+        },
+        {
+          "id": "codeman",
+          "name": "Человек-Наук",
+          "img": "pictures/codeman.png",
+          "position": {
+            "x": 5,
+            "y": 2
+          }
+        },
+        {
+          "id": "robozeka",
+          "name": "Робозека",
+          "img": "pictures/robot.png",
+          "position": {
+            "x": 8,
+            "y": 3
+          }
+        },
+        {
+          "id": "supershish",
+          "name": "Супершиш",
+          "img": "pictures/SUPERSHISH-2.png",
+          "position": {
+            "x": 8,
+            "y": 6
+          }
+        }
+      ],
+      "planets": [
+        {
+          "id": "earth",
+          "name": "Земля",
+          "img": "pictures/Земля.png",
+          "position": {
+            "x": 2,
+            "y": 10
+          }
+        },
+        {
+          "id": "mars",
+          "name": "Марс",
+          "img": "pictures/Марс.png",
+          "position": {
+            "x": 1,
+            "y": 7
+          },
+          "heroId": "robozeka"
+        },
+        {
+          "id": "venus",
+          "name": "Венера",
+          "img": "pictures/Венера.png",
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "heroId": "supermark"
+        },
+        {
+          "id": "mercury",
+          "name": "Меркурий",
+          "img": "pictures/Меркурий.png",
+          "position": {
+            "x": 1,
+            "y": 5
+          },
+          "heroId": "cyberjinn"
+        },
+        {
+          "id": "saturn",
+          "name": "Сатурн",
+          "img": "pictures/Сатурн.png",
+          "position": {
+            "x": 2,
+            "y": 1
+          },
+          "heroId": "vector"
+        },
+        {
+          "id": "uranus",
+          "name": "Уран",
+          "img": "pictures/Уран.png",
+          "position": {
+            "x": 5,
+            "y": 1
+          }
+        },
+        {
+          "id": "neptune",
+          "name": "Нептун",
+          "img": "pictures/Нептун.png",
+          "position": {
+            "x": 9,
+            "y": 3
+          },
+          "heroId": "codeman"
+        },
+        {
+          "id": "pluto",
+          "name": "Плутон",
+          "img": "pictures/Плутон.png",
+          "position": {
+            "x": 8,
+            "y": 7
+          },
+          "heroId": "supershish"
+        }
+      ],
       "assets": {
         "robot": {
           "img": "pictures/Ракета.png",
@@ -141,152 +274,7 @@
         "stone": {
           "img": "pictures/Астероид.jpg",
           "label": "Астероид"
-        },
-        "hyperspace": {
-          "img": "pictures/гиперпрыжок.jpg",
-          "label": "Гиперпространство"
         }
-      },
-      "planets": [
-        {
-          "id": "saturn",
-          "name": "Сатурн",
-          "img": "pictures/Сатурн.png",
-          "position": {
-            "x": 1,
-            "y": 0
-          },
-          "heroId": "vector"
-        },
-        {
-          "id": "neptune",
-          "name": "Нептун",
-          "img": "pictures/Нептун.png",
-          "position": {
-            "x": 4,
-            "y": 0
-          },
-          "heroId": "codeman"
-        },
-        {
-          "id": "venus",
-          "name": "Венера",
-          "img": "pictures/Венера.png",
-          "position": {
-            "x": 3,
-            "y": 4
-          },
-          "heroId": "supermark"
-        },
-        {
-          "id": "uranus",
-          "name": "Уран",
-          "img": "pictures/Уран.png",
-          "position": {
-            "x": 8,
-            "y": 2
-          }
-        },
-        {
-          "id": "mercury",
-          "name": "Меркурий",
-          "img": "pictures/Меркурий.png",
-          "position": {
-            "x": 0,
-            "y": 4
-          },
-          "heroId": "cyberjinn"
-        },
-        {
-          "id": "mars",
-          "name": "Марс",
-          "img": "pictures/Марс.png",
-          "position": {
-            "x": 0,
-            "y": 6
-          },
-          "heroId": "robozeka"
-        },
-        {
-          "id": "pluto",
-          "name": "Плутон",
-          "img": "pictures/Плутон.png",
-          "position": {
-            "x": 6,
-            "y": 7
-          },
-          "heroId": "supershish"
-        },
-        {
-          "id": "earth",
-          "name": "Земля",
-          "img": "pictures/Земля.png",
-          "position": {
-            "x": 1,
-            "y": 9
-          }
-        }
-      ],
-      "heroes": [
-        {
-          "id": "vector",
-          "name": "Вектор",
-          "img": "pictures/vector.png",
-          "position": {
-            "x": 1,
-            "y": 1
-          }
-        },
-        {
-          "id": "codeman",
-          "name": "Человек-Наук",
-          "img": "pictures/codeman.png",
-          "position": {
-            "x": 7,
-            "y": 1
-          }
-        },
-        {
-          "id": "cyberjinn",
-          "name": "Киберджинн",
-          "img": "pictures/cyberjinn.png",
-          "position": {
-            "x": 4,
-            "y": 1
-          }
-        },
-        {
-          "id": "flashcone",
-          "name": "Флеш-шишка",
-          "img": "pictures/flashcone.png",
-          "position": {
-            "x": 3,
-            "y": 4
-          }
-        },
-        {
-          "id": "supermark",
-          "name": "Супер-Марк",
-          "img": "pictures/supermark.png",
-          "position": {
-            "x": 7,
-            "y": 3
-          }
-        },
-        {
-          "id": "robozeka",
-          "name": "Робозека",
-          "img": "pictures/robot.png",
-          "position": {
-            "x": 7,
-            "y": 6
-          }
-        }
-      ],
-      "overseer": {
-        "name": "Плохишиш",
-        "img": "pictures/BADSHISH-3.png",
-        "caption": "Вам не победить меня!"
       }
     },
     "winter-j3": {
