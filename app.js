@@ -256,8 +256,9 @@ function updateBoardScale() {
   const baseCell = parseFloat(rootStyles.getPropertyValue("--cell-size-base")) || 36;
   const baseGap = parseFloat(rootStyles.getPropertyValue("--cell-gap-base")) || 4;
   const { columns, rows } = getGridMetrics(variant);
-  const totalWidth = columns * baseCell + (columns - 1) * baseGap;
-  const totalHeight = rows * baseCell + (rows - 1) * baseGap;
+  const overflowPadding = baseCell * 0.12;
+  const totalWidth = columns * baseCell + (columns - 1) * baseGap + overflowPadding;
+  const totalHeight = rows * baseCell + (rows - 1) * baseGap + overflowPadding;
   const isFullscreen = document.body.classList.contains("is-fullscreen");
   const scale = isFullscreen
     ? availableHeight / totalHeight
