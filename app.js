@@ -563,6 +563,7 @@ function renderTeam() {
   if (!teamHeroes || !heroTemplate) {
     return;
   }
+  const supershishPlacement = getSupershishPlacement();
   teamHeroes.innerHTML = "";
   const teamLineup = [
     ...getAllHeroes().filter((hero) => hero.id !== "supershish"),
@@ -570,7 +571,7 @@ function renderTeam() {
       id: "supershish",
       name: "Супершиш",
       img: "pictures/SUPERSHISH-2.png",
-      alwaysVisible: true
+      alwaysVisible: supershishPlacement === "pedestal"
     }
   ];
 
