@@ -47,8 +47,17 @@ function getBoardVariant(variantId = state?.selectedVariant) {
   return boardConfig?.variants?.[variantId] ?? null;
 }
 
-function getHeroes() {
+function getSupershishPlacement(variant = getBoardVariant()) {
+  return variant?.supershishPlacement ?? "pedestal";
+}
+
+function getAllHeroes() {
   return getBoardVariant()?.heroes ?? [];
+}
+
+function getFieldHeroes() {
+  const placement = getSupershishPlacement();
+  return getAllHeroes().filter((hero) => placement === "field" || hero.id !== "supershish");
 }
 
 function getPlanets() {
@@ -68,7 +77,7 @@ function getGridMetrics(variant) {
     grid.lock,
     grid.hyperspace,
     ...getPlanets().map((planet) => planet.position),
-    ...getHeroes().map((hero) => hero.position)
+    ...getFieldHeroes().map((hero) => hero.position)
   ].filter(Boolean);
   if (points.length === 0) {
     return {
@@ -452,7 +461,7 @@ function renderBoard() {
     grid.appendChild(lock);
   }
 
-  getHeroes().forEach((hero) => {
+  getFieldHeroes().forEach((hero) => {
     const heroEl = createPiece("hero", hero.img, hero.name);
     heroEl.dataset.hero = hero.id;
     if (state.acquiredHeroes.includes(hero.id)) {
@@ -555,7 +564,7 @@ function renderTeam() {
   }
   teamHeroes.innerHTML = "";
   const teamLineup = [
-    ...getHeroes(),
+    ...getAllHeroes().filter((hero) => hero.id !== "supershish"),
     {
       id: "supershish",
       name: "Супершиш",
@@ -666,7 +675,7 @@ function executeCommand(commandId) {
   }
 
   if (commandId === "hero" || commandId === "decorate") {
-    const hero = getHeroes().find(
+    const hero = getFieldHeroes().find(
       (item) => item.position.x === current.x && item.position.y === current.y
     );
     if (hero && !state.acquiredHeroes.includes(hero.id)) {
