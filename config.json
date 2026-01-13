@@ -2,7 +2,6 @@
   "variants": {
     "winter-j2": {
       "label": "Зимняя Олимпиада — J2",
-      "unlockMode": "stages",
       "commands": [
         {
           "id": "up",
@@ -45,39 +44,6 @@
           "type": "box"
         }
       ],
-      "stageRules": [
-        {
-          "id": "commands",
-          "label": "Открытие команд",
-          "commands": [
-            "up",
-            "down",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "id": "hero",
-          "label": "Украшение станции",
-          "commands": [
-            "decorate"
-          ]
-        },
-        {
-          "id": "final",
-          "label": "Финальный этап",
-          "commands": [
-            "jump",
-            "boost",
-            "box"
-          ]
-        }
-      ],
-      "coefficients": {
-        "commands": 115,
-        "hero": 200,
-        "final": 800
-      },
       "commandCosts": {
         "up": 50,
         "left": 150,
@@ -133,39 +99,6 @@
           "type": "box"
         }
       ],
-      "stageRules": [
-        {
-          "id": "commands",
-          "label": "Открытие команд",
-          "commands": [
-            "up",
-            "down",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "id": "hero",
-          "label": "Получение героя",
-          "commands": [
-            "hero"
-          ]
-        },
-        {
-          "id": "final",
-          "label": "Финальный этап",
-          "commands": [
-            "jump",
-            "storage",
-            "box"
-          ]
-        }
-      ],
-      "coefficients": {
-        "commands": 115,
-        "hero": 200,
-        "final": 800
-      },
       "commandCosts": {
         "up": 150,
         "left": 350,
@@ -221,39 +154,6 @@
           "type": "box"
         }
       ],
-      "stageRules": [
-        {
-          "id": "commands",
-          "label": "Открытие команд",
-          "commands": [
-            "up",
-            "down",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "id": "hero",
-          "label": "Получение героя",
-          "commands": [
-            "hero"
-          ]
-        },
-        {
-          "id": "final",
-          "label": "Финальный этап",
-          "commands": [
-            "jump",
-            "storage",
-            "box"
-          ]
-        }
-      ],
-      "coefficients": {
-        "commands": 115,
-        "hero": 200,
-        "final": 800
-      },
       "commandCosts": {
         "up": 115,
         "left": 275,
@@ -309,39 +209,6 @@
           "type": "box"
         }
       ],
-      "stageRules": [
-        {
-          "id": "commands",
-          "label": "Открытие команд",
-          "commands": [
-            "up",
-            "down",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "id": "hero",
-          "label": "Получение героя",
-          "commands": [
-            "hero"
-          ]
-        },
-        {
-          "id": "final",
-          "label": "Финальный этап",
-          "commands": [
-            "jump",
-            "storage",
-            "box"
-          ]
-        }
-      ],
-      "coefficients": {
-        "commands": 115,
-        "hero": 200,
-        "final": 800
-      },
       "commandCosts": {
         "up": 150,
         "left": 350,
@@ -397,39 +264,6 @@
           "type": "box"
         }
       ],
-      "stageRules": [
-        {
-          "id": "commands",
-          "label": "Открытие команд",
-          "commands": [
-            "up",
-            "down",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "id": "hero",
-          "label": "Получение героя",
-          "commands": [
-            "hero"
-          ]
-        },
-        {
-          "id": "final",
-          "label": "Финальный этап",
-          "commands": [
-            "jump",
-            "storage",
-            "box"
-          ]
-        }
-      ],
-      "coefficients": {
-        "commands": 115,
-        "hero": 200,
-        "final": 800
-      },
       "commandCosts": {
         "up": 115,
         "left": 275,
@@ -485,39 +319,6 @@
           "type": "box"
         }
       ],
-      "stageRules": [
-        {
-          "id": "commands",
-          "label": "Открытие команд",
-          "commands": [
-            "up",
-            "down",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "id": "hero",
-          "label": "Получение героя",
-          "commands": [
-            "hero"
-          ]
-        },
-        {
-          "id": "final",
-          "label": "Финальный этап",
-          "commands": [
-            "jump",
-            "storage",
-            "box"
-          ]
-        }
-      ],
-      "coefficients": {
-        "commands": 115,
-        "hero": 200,
-        "final": 800
-      },
       "commandCosts": {
         "up": 150,
         "left": 350,
